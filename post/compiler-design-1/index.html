@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='https://w1redch4d.github.io/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/frameworks.min.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/github.min.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/github-style.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/light.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/dark.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/syntax.css' />
+    <title>Compiler Design 1 - BloggerCh4d</title>
+    
+    <link rel="icon" type="image/x-icon" href='https://w1redch4d.github.io/images/github.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="a brief about compiler design" />
+<meta name="keywords"
+  content='' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://w1redch4d.github.io/post/compiler-design-1/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Compiler Design 1 - BloggerCh4d" />
+<meta name="twitter:description"
+  content="a brief about compiler design" />
+<meta name="twitter:site" content="https://w1redch4d.github.io/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="https://w1redch4d.github.io/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Compiler Design 1 - BloggerCh4d">
+<meta property="og:description"
+  content="a brief about compiler design" />
+<meta property="og:url" content="https://w1redch4d.github.io/post/compiler-design-1/" />
+<meta property="og:site_name" content="Compiler Design 1" />
+<meta property="og:image"
+  content="https://w1redch4d.github.io/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-04-12 01:46:05 &#43;0530 IST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="https://w1redch4d.github.io/">
+        <img class="octicon" height="32" width="32" src="https://w1redch4d.github.io/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" action="https://www.google.com/search" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+              <input type="hidden" name="q" value="site:https://w1redch4d.github.io/">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="https://w1redch4d.github.io/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="https://w1redch4d.github.io/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="https://w1redch4d.github.io/">
+                  <img class=" avatar-user"
+                    src="https://w1redch4d.github.io/images/avatar.jpeg"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="https://w1redch4d.github.io/">w1redch4d</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="https://w1redch4d.github.io/post/compiler-design-1/">Compiler Design 1</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sat, 12 Apr 2025 01:46:05 &#43;0530"
+                    class="no-wrap">
+                    Sat, 12 Apr 2025 01:46:05 &#43;0530</relative-time>
+
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      1182 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="compiler-design-module-1">Compiler Design Module 1:</h1>
+<p>Before we start on designing a compiler, a genuine question that would come to mind would be <strong>wtf is even a compiler?</strong>, to understand that lets start with the question <strong>what is an interpreter?</strong></p>
+<h2 id="1-understanding-the-machine-and-the-need-for-interpreters">1. Understanding the Machine and the Need for Interpreters</h2>
+<p>Consder a machine , machine is a very vague term so we have to describe what do i even mean by a &ldquo;machine&rdquo;, for our understanding of this module we would define our machine to be a <a href="https://en.wikipedia.org/wiki/Turing_machine#Overview">Turing Machine</a>, so essentially a machine that can compute a set of instructions. I am going to call these instructions a &ldquo;low level instruction&rdquo;. so any &ldquo;program&rdquo; with &ldquo;low level instructions&rdquo; can execute on the machine,</p>
+
+<pre class="mermaid">
+    graph TD
+    Machine -- Low Level Instructions --&gt; Execution
+</pre>
+<p>However, programming directly in low-level instructions is difficult and hard for humans to understand. To address this, <strong>high-level instructions</strong> and <strong>high-level programming languages</strong> were invented.</p>
+
+<pre class="mermaid">
+    graph TD
+    HighLevelProgram -- High Level Instructions --&gt; HumanUnderstandability
+</pre>
+<p>A program written in high-level instructions cannot be directly executed on a low-level machine. This necessitates something in the middle: the <strong>interpreter</strong>.</p>
+
+<pre class="mermaid">
+    graph TD
+    HighLevelProgram -- High Level Instructions --&gt; Interpreter
+    Interpreter -- Low Level Instructions --&gt; Machine
+    Machine -- Executes --&gt; Interpreter
+</pre>
+<p>The interpreter itself is a program that needs to be implemented using the low-level instructions of the underlying machine so that it can execute. The interpreter&rsquo;s role is to take a high-level program and execute its instructions.</p>
+<p><strong>How an Interpreter Works:</strong></p>
+<p>An interpreter typically <strong>fetches the next instruction</strong> from the high-level program, <strong>interprets it</strong>, <strong>executes it</strong>, and then moves to the next instruction. During execution, the interpreter takes two inputs:</p>
+<ul>
+<li>The <strong>program</strong> with high-level instructions.</li>
+<li><strong>Input data</strong> required for the program to execute.</li>
+</ul>
+<p>As it executes, the interpreter generates <strong>output</strong>, which could be printing to the screen, sending commands to a printer, or any other form of result.</p>
+
+<pre class="mermaid">
+    graph TD
+    subgraph Interpreter Execution
+        HighLevelProgram -- Instruction --&gt; Fetch
+        InputData -- Data --&gt; Execute
+        Fetch -- Next Instruction --&gt; Interpret
+        Interpret -- Interpreted Instruction --&gt; Execute
+        Execute -- Output --&gt; OutputDevice
+    end
+</pre>
+<h2 id="2-functional-representation-of-an-interpreter">2. Functional Representation of an Interpreter</h2>
+<p>Functionally, we can think of an interpreter as a function that takes two arguments: a <strong>program</strong> (in high-level instructions) and <strong>data</strong>, and produces an <strong>output</strong>.</p>
+
+<pre class="mermaid">
+    graph TD
+    InterpreterFunction(interpreter- program, data) -- Returns --&gt; Output
+</pre>
+<p>This can be <strong>staged (or curried)</strong> such that the interpreter first takes the <strong>program</strong> and returns a new function. This returned function then takes the <strong>data</strong> and produces the <strong>output</strong>.</p>
+
+<pre class="mermaid">
+    graph TD
+    InterpreterStage1(interpreter - program) -- Returns --&gt; IntermediateFunction
+    IntermediateFunction(intermediate - data) -- Returns --&gt; Output
+</pre>
+<p>This staged representation is useful because the <strong>same program is often executed on different sets of data</strong>.</p>
+<h2 id="3-compiled-function-and-the-compiler">3. Compiled Function and the Compiler</h2>
+<p>A <strong>compiler</strong> is something that takes a <strong>high-level program</strong> as input and returns an <strong>executable</strong>.</p>
+
+<pre class="mermaid">
+    graph TD
+    HighLevelProgram -- Input to --&gt; Compiler
+    Compiler -- Output is --&gt; Executable
+</pre>
+<p>The <strong>executable</strong> itself is a program written in <strong>low-level instructions</strong> so that it can run directly on the machine. When the executable is run on the machine, it takes <strong>data</strong> as input and produces the <strong>same output</strong> as if the interpreter had executed the original high-level program with the same data.</p>
+
+<pre class="mermaid">
+    graph TD
+    Executable -- Runs on Machine --&gt; Machine
+    Machine -- Executes --&gt; Executable
+    Executable -- Takes Data --&gt; InputData
+    InputData -- Processed by Executable --&gt; Output
+</pre>
+<p>Notice that the function from <strong>data</strong> to <strong>output</strong> is the same in both the interpreted and compiled scenarios. This suggests that when we apply the interpreter to a high-level program, we are in a way generating an executable (at least in terms of functional representation).</p>
+<h2 id="4-executable-as-a-specialization-of-the-interpreter">4. Executable as a Specialization of the Interpreter</h2>
+<p>The <strong>executable</strong> can be viewed as a <strong>specialization of the interpreter</strong> for a given program.</p>
+<p>Think of it this way: The interpreter is a general-purpose program that can execute any program written in a specific high-level language. When we compile a particular high-level program, we are essentially taking the interpreter and tailoring it specifically for that one program. The result is the executable, which is optimized (hopefully) to run that specific program more efficiently.</p>
+<h2 id="5-partial-evaluation-or-specialization">5. Partial Evaluation or Specialization</h2>
+<p><strong>Partial evaluation</strong> (or specialization) is a technique where a function that takes multiple inputs is evaluated with respect to some of its inputs being known (the <strong>static part</strong>), resulting in a new, specialized function that only needs the remaining inputs (the <strong>dynamic part</strong>).</p>
+<p>Let&rsquo;s say we have a function <code>prog(i_static, i_dynamic)</code> that returns an output. If <code>i_static</code> is known and remains constant across multiple runs, we can partially evaluate <code>prog</code> on <code>i_static</code> to obtain a new program <code>prog_star(i_dynamic)</code>. <code>prog_star</code> is called the <strong>residual program</strong> and is a specialized version of <code>prog</code>.</p>
+
+<pre class="mermaid">
+    graph TD
+    Prog(i_static, i_dynamic) -- Partial Evaluation with i_static --&gt; Prog_star(i_dynamic)
+</pre>
+<p>The advantage of partial evaluation is that the specialized program <code>prog_star</code> is often <strong>faster or more efficient</strong> than the original program <code>prog</code> because the computations involving the static input have already been performed.</p>
+<h2 id="6-the-first-futamura-projection">6. The First Futamura Projection</h2>
+<p>The first <strong>Futamura Projection</strong> formalizes the relationship between interpretation and compilation using the concept of partial evaluation. It states that <strong>specializing an interpreter for a given source code (high-level program) yields an executable</strong>.</p>
+<p>Consider the <code>interpret</code> function, which takes a <code>program</code> and returns a function that takes <code>data</code> and returns <code>output</code>.</p>
+
+<pre class="mermaid">
+    graph TD
+    Interpret(program) -- Returns --&gt; ExecutorFunction
+    ExecutorFunction(data) -- Returns --&gt; Output
+</pre>
+<p>The first Futamura Projection suggests that we can have a <strong>specializer</strong> function that takes the <code>interpret</code> function and a specific <code>program</code> as input and produces an <strong>executable</strong>, which is a function that directly takes <code>data</code> and returns <code>output</code>.</p>
+
+<pre class="mermaid">
+    graph TD
+    Specializer(interpret, program) -- Yields --&gt; Executable
+    Executable(data) -- Returns --&gt; Output
+</pre>
+<p>In essence, <strong>compilation is the process of partially evaluating the interpreter with respect to the source program</strong>. The resulting executable is a specialized version of the interpreter for that particular program.</p>
+<p>This process is meaningful only if executing the specialized executable directly on data is <strong>faster</strong> than running the general-purpose interpreter on both the program and the same data for multiple runs.</p>
+<p><strong>Important Note:</strong> A trivial specialization of the interpreter on a high-level program would be to simply bundle the entire interpreter code and the high-level program into a single file. However, this kind of specialization is <strong>not beneficial</strong> in terms of performance. True compilation aims for a more optimized and efficient executable.</p>
+<h2 id="7-takeaways-from-module-1">7. Takeaways from Module 1</h2>
+<ul>
+<li>An <strong>interpreter executes high-level programs</strong> by interpreting and executing instructions step-by-step.</li>
+<li>A <strong>compiler translates a high-level program</strong> into a low-level <strong>executable</strong> that can run directly on the machine.</li>
+<li>The <strong>executable can be seen as a specialized version of the interpreter</strong> for a specific program.</li>
+<li><strong>Partial evaluation is a technique to specialize programs</strong> by pre-computing results based on static inputs.</li>
+<li>The <strong>first Futamura Projection states that compilation is the partial evaluation of the interpreter with respect to the source program</strong>, resulting in an executable.</li>
+<li>The <strong>goal of compilation (partial evaluation) is to produce an executable that runs more efficiently</strong> than interpreting the program directly, especially when the same program is run multiple times with different data.</li>
+</ul>
+<hr>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='https://w1redch4d.github.io/js/toc.js'></script>
+<link rel="stylesheet" href='https://w1redch4d.github.io/css/toc.css' />
+
+  
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://w1redch4d.github.io/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Theme by <a href='https://github.com/MeiK2333/github-style'>github-style</a></li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="https://w1redch4d.github.io/js/github-style.js"></script>
+
+
+
+
+
+
+
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+
+
+</html>
