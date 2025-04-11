@@ -2,45 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>BloggerCh4d</title>
-    <link>http://w1redch4d.github.io/</link>
+    <link>https://w1redch4d.github.io/</link>
     <description>Recent content on BloggerCh4d</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <lastBuildDate>Fri, 11 Apr 2025 14:25:45 +0530</lastBuildDate>
-    <atom:link href="http://w1redch4d.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://w1redch4d.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>FlareOn11</title>
-      <link>http://w1redch4d.github.io/post/flareon11/</link>
+      <link>https://w1redch4d.github.io/post/flareon11/</link>
       <pubDate>Fri, 11 Apr 2025 14:25:45 +0530</pubDate>
-      <guid>http://w1redch4d.github.io/post/flareon11/</guid>
+      <guid>https://w1redch4d.github.io/post/flareon11/</guid>
       <description>Writeups for FlareOn-2024</description>
     </item>
     <item>
       <title>Intro Android Kernel</title>
-      <link>http://w1redch4d.github.io/post/intro-android-kernel/</link>
+      <link>https://w1redch4d.github.io/post/intro-android-kernel/</link>
       <pubDate>Fri, 11 Apr 2025 13:52:58 +0530</pubDate>
-      <guid>http://w1redch4d.github.io/post/intro-android-kernel/</guid>
+      <guid>https://w1redch4d.github.io/post/intro-android-kernel/</guid>
       <description>A brief introduction on Zygote and ART</description>
     </item>
     <item>
       <title>Intro V8</title>
-      <link>http://w1redch4d.github.io/post/intro-v8/</link>
+      <link>https://w1redch4d.github.io/post/intro-v8/</link>
       <pubDate>Fri, 11 Apr 2025 13:06:01 +0530</pubDate>
-      <guid>http://w1redch4d.github.io/post/intro-v8/</guid>
+      <guid>https://w1redch4d.github.io/post/intro-v8/</guid>
       <description>Introduction to Javascript in Rendering</description>
     </item>
     <item>
       <title>PlaidCTF</title>
-      <link>http://w1redch4d.github.io/post/plaidctf/</link>
+      <link>https://w1redch4d.github.io/post/plaidctf/</link>
       <pubDate>Fri, 11 Apr 2025 11:14:17 +0530</pubDate>
-      <guid>http://w1redch4d.github.io/post/plaidctf/</guid>
+      <guid>https://w1redch4d.github.io/post/plaidctf/</guid>
       <description>My Writeups for PlaidCTF 2025</description>
     </item>
     <item>
       <title></title>
-      <link>http://w1redch4d.github.io/readme/</link>
+      <link>https://w1redch4d.github.io/readme/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://w1redch4d.github.io/readme/</guid>
+      <guid>https://w1redch4d.github.io/readme/</guid>
       <description>Hello World!</description>
     </item>
   </channel>
