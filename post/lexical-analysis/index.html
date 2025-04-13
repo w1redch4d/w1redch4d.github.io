@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='https://w1redch4d.github.io/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/frameworks.min.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/github.min.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/github-style.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/light.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/dark.css' />
+    <link rel="stylesheet" href='https://w1redch4d.github.io/css/syntax.css' />
+    <title>Lexical Analysis - BloggerCh4d</title>
+    
+    <link rel="icon" type="image/x-icon" href='https://w1redch4d.github.io/images/github.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    
+
+    
+    <meta name="description"
+  content="Scanner, Token generation" />
+<meta name="keywords"
+  content='' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://w1redch4d.github.io/post/lexical-analysis/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Lexical Analysis - BloggerCh4d" />
+<meta name="twitter:description"
+  content="Scanner, Token generation" />
+<meta name="twitter:site" content="https://w1redch4d.github.io/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="https://w1redch4d.github.io/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Lexical Analysis - BloggerCh4d">
+<meta property="og:description"
+  content="Scanner, Token generation" />
+<meta property="og:url" content="https://w1redch4d.github.io/post/lexical-analysis/" />
+<meta property="og:site_name" content="Lexical Analysis" />
+<meta property="og:image"
+  content="https://w1redch4d.github.io/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2025-04-13 08:44:23 &#43;0530 IST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="https://w1redch4d.github.io/">
+        <img class="octicon" height="32" width="32" src="https://w1redch4d.github.io/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" action="https://www.google.com/search" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+              <input type="hidden" name="q" value="site:https://w1redch4d.github.io/">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="https://w1redch4d.github.io/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="https://w1redch4d.github.io/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="https://w1redch4d.github.io/">
+                  <img class=" avatar-user"
+                    src="https://w1redch4d.github.io/images/avatar.jpeg"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="https://w1redch4d.github.io/">w1redch4d</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="https://w1redch4d.github.io/post/lexical-analysis/">Lexical Analysis</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sun, 13 Apr 2025 08:44:23 &#43;0530"
+                    class="no-wrap">
+                    Sun, 13 Apr 2025 08:44:23 &#43;0530</relative-time>
+
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      1798 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="introduction-to-lexical-analysis">Introduction to Lexical Analysis</h1>
+<p>Lexical analysis, also known as scanning or tokenization, is the first phase of a compiler. It is responsible for reading the source code as a stream of characters and converting it into a stream of tokens. These tokens are the basic building blocks for the subsequent phases of the compiler, such as parsing and semantic analysis.</p>
+<h2 id="role-of-lexical-analysis">Role of Lexical Analysis</h2>
+<p>The primary role of the lexical analyzer (lexer) is to break down the raw source code into meaningful units called <strong>tokens</strong>. These tokens represent elements like keywords, identifiers, operators, constants, and punctuation marks. By doing so, the lexer simplifies the input for the parser, which expects a sequence of tokens rather than a stream of individual characters.</p>
+<p>Consider this example javascript code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="nx">x</span> <span class="o">&gt;</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">z</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">a</span> <span class="o">=</span> <span class="nx">z</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>To a computer this js source code, is just a stream of characters, separated by newlines, tabs and spaces, in this example lets assume that in computer&rsquo;s perspective the above source code will look as the following:</p>
+<pre tabindex="0"><code>let&lt;space&gt;x,&lt;space&gt;z&lt;space&gt;=&lt;space&gt;0;\nlet&lt;space&gt;y,&lt;space&gt;a&lt;space&gt;=&lt;space&gt;1;\nif&lt;space&gt;(x&lt;space&gt;&gt;&lt;space&gt;y)&lt;space&gt;{\n\tz&lt;space&gt;=&lt;space&gt;1\n}&lt;space&gt;else&lt;space&gt;{\n\ta&lt;space&gt;=&lt;space&gt;z;\n}
+</code></pre><p>where <code>&quot;\n&quot;</code> represents a newline, <code>&quot;\t&quot;</code> represents a tab and <code>&lt;space&gt;</code> represents the spaces which are there in the middle, the job for the interpreter is to now convert this stream of characters into a set of tokens. Now lets understand what do i mean by &ldquo;a stream of tokens&rdquo; in here, so basically we want to insert delimiters (<code>|</code>) into that stream of characters such that they distinguish one &ldquo;character&rdquo; from another :</p>
+<pre tabindex="0"><code>let | x | , | z | = | 0 | ; | \n | let | y | , | a | = | 1 | ; | \n | if | ( | x | &gt; | y | ) | { | \n | \t | z | = | 1 | \n | } | else | { | \n | \t | a | = | z | ; | \n | }
+</code></pre><p>so in this case the <code>if</code> word is one token (keyword token), and <code>x</code> is another token (identifier token), <code>\n</code> and <code>\t</code> or <code>&lt;space&gt;</code> for that matter are also tokens (whitespace tokens).</p>
+<p>In the context of the V8 JavaScript engine, the <strong>Lexer</strong> is the first component in the JavaScript execution pipeline. It takes the JavaScript code and divides it into tokens such as keywords, constants, operators, and variables.</p>
+
+<pre class="mermaid">
+    graph TD
+    A[Source Code] --&gt; B(Lexer);
+    B --&gt; C[Token Stream];
+</pre>
+<p>The <strong>&ldquo;Lexer&rdquo;</strong> for V8 is called <strong>&ldquo;scanner&rdquo;</strong> and can be found found in the directory <a href="https://v8-docs.vercel.app/dir_3fb67633942bd84f7aa391e58ba835b3.html"><code>./src/parsing</code></a> and the code that converts the stream of characters into token can be found here in the file <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351"><code>scanner-inl.h</code></a> along with <a href="https://v8-docs.vercel.app/classv8_1_1internal_1_1Scanner.html#a11ad4829073aee72344151129608643b">call graph for the function</a>.</p>
+<p><strong>Important Note:</strong> I am not using the official v8 source from the main refs as it is subject to change with newer commits in the future.</p>
+<h2 id="tokens-lexemes-and-token-classes">Tokens, Lexemes, and Token Classes</h2>
+<ul>
+<li><strong>Token Class</strong>: A token class (or token type) is a category of tokens that share a common set of properties. Examples include <code>kIdentifier</code>, <code>KEYWORD</code>, <code>INTEGER_LITERAL</code>, <code>OPERATOR</code>, etc..</li>
+<li><strong>Lexeme</strong>: A lexeme is the actual sequence of characters in the source code that matches the pattern for a token class. For example, <code>if</code> is a lexeme that belongs to the <code>KEYWORD</code> token class, and <code>count</code> is a lexeme that might belong to the <code>kIdentifier</code> token class.</li>
+<li><strong>Token</strong>: A token is a pair consisting of a token class and its corresponding lexeme (or sometimes additional attributes like the value of a literal). For example, the lexeme <code>42</code> would result in a token like <code>&lt;INTEGER_LITERAL, &quot;42&quot;&gt;</code>.</li>
+</ul>
+<h2 id="token-class">Token Class</h2>
+<p>A Token Class corresponds to a set of strings:</p>
+<ul>
+<li><strong>Identifier</strong>: string of letters or digits starting with a letter.</li>
+<li><strong>Integer</strong>: string of digits.</li>
+<li><strong>Keyword</strong>: <code>if</code>,<code>else</code>,<code>let</code>,<code>for</code>,<code>while</code>&hellip;</li>
+<li><strong>Whitespaces</strong>: sequence of spaces, newlines, tabs, etc.</li>
+</ul>
+<p>The <strong>Token class</strong> source code for v8 can be found in the file <a href="https://v8-docs.vercel.app/token_8h_source.html#l00211"><code>token.h</code></a> along with the <a href="https://v8-docs.vercel.app/classv8_1_1internal_1_1Token.html"><code>Token Class Reference</code></a>.</p>
+<h2 id="error-handling-in-lexical-analysis">Error Handling in Lexical Analysis</h2>
+<p>When the lexer encounters a sequence of characters that does not match any of the defined token class patterns, a lexical error occurs. A common approach to handle lexical errors is to define a special <a href="https://v8-docs.vercel.app/token_8h_source.html#l00204"><strong>error token value</strong></a>. When no other pattern matches, the lexer can match the erroneous sequence (often just a single character) as an error token and <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00375">continue the scanning process</a>. This allows the compiler to detect multiple errors in a single pass. Error tokens can contain the problematic lexeme and potentially an error message.</p>
+<h2 id="software-implementation-of-lexical-analyzers">Software Implementation of Lexical Analyzers</h2>
+<p>Lexical analyzers can be implemented in several ways. Two common approaches involve using finite automata:</p>
+<ul>
+<li>
+<p><strong>Deterministic Finite Automaton (DFA)</strong>: A DFA can be directly implemented using a <strong>transition table</strong>. The rows of the table represent the states of the DFA, and the columns represent the input characters. Each entry in the table specifies the next state for a given state and input character. Executing a DFA involves starting at the initial state and following the transitions based on the input characters until the end of the input is reached. The final state indicates whether a valid token has been recognized. DFAs provide efficient linear-time scanning but can sometimes result in larger state machines compared to NFAs.</p>
+</li>
+<li>
+<p><strong>Non-deterministic Finite Automaton (NFA)</strong>: Regular expressions can be easily converted into NFAs. An NFA can have multiple possible next states for a given state and input character, as well as epsilon transitions (transitions without consuming any input). Simulating an NFA involves keeping track of the set of all possible states the automaton can be in at each step. While NFAs are often more compact than DFAs, their simulation can be slightly less efficient. However, tools can automatically convert regular expressions to NFAs and then to optimized DFAs for efficient lexical analysis.</p>
+</li>
+</ul>
+<p>Many lexical analyzer generators (like Lex or Flex) take a specification of token classes in the form of regular expressions and automatically generate efficient C code for a lexer based on DFA implementation. In case of V8 as well the lexical analyzer a.k.a <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351"><code>scanner</code></a> uses the DFA implementation on the <a href="https://v8-docs.vercel.app/token_8h_source.html#l00211"><code>token.h</code></a> file.</p>
+<h2 id="lexer-in-v8">Lexer in V8</h2>
+<p>In the V8 JavaScript engine, the <strong>Lexer</strong> is a crucial first step in processing JavaScript code. It takes the raw JavaScript source code and performs the following tasks:</p>
+<ul>
+<li>Scans the input character by character.</li>
+<li>Identifies sequences of characters that form lexemes.</li>
+<li>Categorizes these lexemes into predefined token classes (e.g., keywords like <code>function</code>, identifiers like variable names, operators like <code>+</code>, literals like <code>&quot;hello&quot;</code> or <code>123</code>).</li>
+<li>Produces a stream of tokens that is then passed to the <strong>Parser</strong>.</li>
+</ul>
+<p>The V8 Lexer plays a vital role in the overall performance of the engine by efficiently breaking down the source code into a format that can be readily processed by subsequent stages of the compilation and execution pipeline.</p>
+<p>Lets uncover how the lexer in v8 works with a testcase example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">is_greater</span><span class="p">(</span><span class="nx">a</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span><span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="mi">1337</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="s2">&#34;GREATER!!&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">is_greater</span><span class="p">(</span><span class="mi">13337</span><span class="p">));</span>
+</span></span></code></pre></div><blockquote>
+<p>Note: The test case is very simple, so it can’t cover the full flow of the scanner.</p>
+</blockquote>
+<p>The function <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351"><code>Scanner::ScanSingleToken()</code></a> serves as the entry point for scanning individual tokens within the V8 engine. At this stage, the <code>c0_</code> variable is already initialized to point to the first character of the js source code stream. In the provided test scenario, <code>c0_</code> references the character <code>'f'</code>. Let us examine the workflow in detail. Early in the function, specifically by the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00360">fifth line of code</a>, there is a check to determine if <code>c0_</code> contains a character within the ASCII range. Given that <code>c0_</code> holds <code>'f'</code>, this condition evaluates to true. Following this, the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00361">sixth line</a> references the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00180"><code>one_char_tokens</code></a> data structure — a predefined template in V8 consisting of an array of character types. This structure is segmented into several logical components, which classify characters accordingly. In this case, <code>'f'</code> is recognized as an ASCII identifier via the <a href="https://v8-docs.vercel.app/char-predicates-inl_8h_source.html#l00026"><code>IsAsciiIdentifier(c)</code></a> method, categorizing it under the <a href="https://v8-docs.vercel.app/token_8h_source.html#l00178"><code>Token::kIdentifier</code></a> type. Within the <code>ScanSingleToken()</code> function, given that <code>c0_</code> is classified as <code>Token::kIdentifier</code>, the scanner delegates further processing to the <a href="https://v8-docs.vercel.app/char-predicates-inl_8h_source.html#l000188"><code>ScanIdentifierOrKeyword()</code></a> method. This method orchestrates a series of operations that manage the relationships between relevant classes during token scanning. The image below illustrates the call stack associated with these operations:</p>
+<p><img src="../../assets/img/callstack.png" alt="img"></p>
+<p>Before advancing to subsequent characters, the current character (<code>'f'</code>) must be preserved. The scanner utilizes a window structure for this purpose. Specifically, the <a href="https://v8-docs.vercel.app/literal-buffer_8h_source.html#l00088"><code>one_byte_char</code></a> variable holds the value of <code>c0_</code>, which is then stored in the <a href="https://v8-docs.vercel.app/literal-buffer_8h_source.html#l000100"><code>backing_store_</code></a>. We can verify this claim by checking the variable window in the vscode debug view with the current value of our <code>c0_</code> variable.</p>
+<p><img src="../../assets/img/c0__value.png" alt="img"></p>
+<p>Figure-1</p>
+<p><img src="../../assets/img/one_byte_char_value.png" alt="img"></p>
+<p>Figure-2</p>
+<p>As we can see the value of <code>c0_</code> (102) in Figure-1 is the same as <code>one_byte_char</code> (102) in Figure-2 and 102 in ascii translates to <code>f</code>.
+The <a href="https://v8-docs.vercel.app/scanner_8h_source.html#l00077"><code>AdvanceUntil()</code></a> method proceeds to iterate over each character sequentially, terminating upon encountering a designated terminator character. As depicted in Figure 3, this process results in the collection of the first eight characters, which form the string <code>&quot;function&quot;</code> in our example.</p>
+<p>At this point, a complete token has been successfully accumulated. The subsequent step involves determining whether this token represents a reserved keyword or a general identifier. This classification is handled by the <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00223"><code>GetToken()</code></a> method, which performs a straightforward lookup in a predefined hash table to retrieve the token type. Figure 4 provides an overview of the key members of <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00093">this hash table</a>.</p>
+<p>As a result of this process, the token corresponding to the string <code>&quot;function&quot;</code> is correctly identified and assigned the type <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00106"><code>Token::kFunction</code></a>. Similarly, for the token <code>&quot;is_greater&quot;</code>, the system assigns the type <a href="https://v8-docs.vercel.app/token_8h_source.html#l00178"><code>Token::kIdentifier</code></a>, following the same mechanism.</p>
+<p>Here is the control flow graph of the codeflow:</p>
+
+<pre class="mermaid">
+    graph TD
+    A[Start: ScanSingleToken] --&gt; B[c0_ points to first character &#39;f&#39;]
+    B --&gt; C{Is c0_ ASCII?}
+    C -- Yes --&gt; D[Check one_char_tokens]
+    D --&gt; E{IsAsciiIdentifier?}
+    E -- Yes --&gt; F[Token type: Token::kIdentifier]
+    F --&gt; G[Call ScanIdentifierOrKeyword]
+    G --&gt; H[Save current character &#39;f&#39; in window -&gt; backing_store_]
+    H --&gt; I[Call AdvanceUntil]
+    I --&gt; J[Read characters until terminator]
+    J --&gt; K[Collect string &#39;function&#39;]
+    K --&gt; L[Token complete]
+    L --&gt; M[Call GetToken]
+    M --&gt; N[Lookup token in predefined hash table]
+    N --&gt; O{Is keyword?}
+    O -- Yes --&gt; P[Token type: Token::kFunction]
+    P --&gt; S[Advance to next token: &#39;is_greater&#39;]
+    
+    S --&gt; T[c0_ points to first character &#39;i&#39;]
+    T --&gt; U{Is c0_ ASCII?}
+    U -- Yes --&gt; V[Check one_char_tokens]
+    V --&gt; W{IsAsciiIdentifier?}
+    W -- Yes --&gt; X[Token type: Token::kIdentifier]
+    X --&gt; Y[Call ScanIdentifierOrKeyword]
+    Y --&gt; Z[Save current character &#39;i&#39; in window -&gt; backing_store_]
+    Z --&gt; AA[Call AdvanceUntil]
+    AA --&gt; AB[Read characters until terminator]
+    AB --&gt; AC[Collect string &#39;is_greater&#39;]
+    AC --&gt; AD[Token complete]
+    AD --&gt; AE[Call GetToken]
+    AE --&gt; AF[Lookup token in predefined hash table]
+    AF --&gt; AG{Is keyword?}
+    AG -- No --&gt; AH[Token type: Token::kIdentifier &#39;is_greater&#39;]
+    AH --&gt; R[End]
+
+    AG -- Yes --&gt; AI[Token type: Token::kFunction] 
+    AI --&gt; R[End]
+
+    P --&gt; R[End]
+</pre>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='https://w1redch4d.github.io/js/toc.js'></script>
+<link rel="stylesheet" href='https://w1redch4d.github.io/css/toc.css' />
+
+  
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://w1redch4d.github.io/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Theme by <a href='https://github.com/MeiK2333/github-style'>github-style</a></li>
+      
+      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+</body>
+
+<script type="application/javascript" src="https://w1redch4d.github.io/js/github-style.js"></script>
+
+
+
+
+
+
+
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+
+
+</html>
