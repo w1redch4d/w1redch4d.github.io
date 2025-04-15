@@ -16,6 +16,13 @@
       <description>Introduced to programming at 16 through Game hacking, I am now a 21-year-old passionate security engineer with a strong focus on low-level programming, kernel development, and high-performance computing. Proficient in C and C++, I have experience in Linux hacking and enjoy exploring and experimenting with different Linux distributions. Since my starting years, i have now moved to chromium sbx and v8 exploitation and n-day analysis, covered many RCAs related to v8 iginition pipeline, currently focusing on chromium sbx rendering pipeline and GPU command buffers.</description>
     </item>
     <item>
+      <title>Parser Workflow</title>
+      <link>https://w1redch4d.github.io/post/parser-workflow/</link>
+      <pubDate>Mon, 14 Apr 2025 11:39:29 +0530</pubDate>
+      <guid>https://w1redch4d.github.io/post/parser-workflow/</guid>
+      <description>V8 parser workflow</description>
+    </item>
+    <item>
       <title>Lexical Analysis</title>
       <link>https://w1redch4d.github.io/post/lexical-analysis/</link>
       <pubDate>Sun, 13 Apr 2025 08:44:23 +0530</pubDate>

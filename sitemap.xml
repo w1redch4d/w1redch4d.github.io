@@ -11,11 +11,32 @@
     <loc>https://w1redch4d.github.io/</loc>
     <lastmod>2025-04-15T07:40:35+05:30</lastmod>
   </url><url>
-    <loc>https://w1redch4d.github.io/post/</loc>
+    <loc>https://w1redch4d.github.io/tags/ast/</loc>
     <lastmod>2025-04-14T11:39:29+05:30</lastmod>
   </url><url>
     <loc>https://w1redch4d.github.io/tags/compiler-design/</loc>
-    <lastmod>2025-04-13T08:44:23+05:30</lastmod>
+    <lastmod>2025-04-14T11:39:29+05:30</lastmod>
+  </url><url>
+    <loc>https://w1redch4d.github.io/post/parser-workflow/</loc>
+    <lastmod>2025-04-14T11:39:29+05:30</lastmod>
+  </url><url>
+    <loc>https://w1redch4d.github.io/tags/parsing/</loc>
+    <lastmod>2025-04-14T11:39:29+05:30</lastmod>
+  </url><url>
+    <loc>https://w1redch4d.github.io/post/</loc>
+    <lastmod>2025-04-14T11:39:29+05:30</lastmod>
+  </url><url>
+    <loc>https://w1redch4d.github.io/series/</loc>
+    <lastmod>2025-04-14T11:39:29+05:30</lastmod>
+  </url><url>
+    <loc>https://w1redch4d.github.io/tags/</loc>
+    <lastmod>2025-04-14T11:39:29+05:30</lastmod>
+  </url><url>
+    <loc>https://w1redch4d.github.io/series/understanding-v8-internals/</loc>
+    <lastmod>2025-04-14T11:39:29+05:30</lastmod>
+  </url><url>
+    <loc>https://w1redch4d.github.io/tags/v8/</loc>
+    <lastmod>2025-04-14T11:39:29+05:30</lastmod>
   </url><url>
     <loc>https://w1redch4d.github.io/tags/lexical-analysis/</loc>
     <lastmod>2025-04-13T08:44:23+05:30</lastmod>
@@ -26,19 +47,7 @@
     <loc>https://w1redch4d.github.io/tags/scanner/</loc>
     <lastmod>2025-04-13T08:44:23+05:30</lastmod>
   </url><url>
-    <loc>https://w1redch4d.github.io/series/</loc>
-    <lastmod>2025-04-13T08:44:23+05:30</lastmod>
-  </url><url>
-    <loc>https://w1redch4d.github.io/tags/</loc>
-    <lastmod>2025-04-13T08:44:23+05:30</lastmod>
-  </url><url>
     <loc>https://w1redch4d.github.io/tags/token-generation/</loc>
-    <lastmod>2025-04-13T08:44:23+05:30</lastmod>
-  </url><url>
-    <loc>https://w1redch4d.github.io/series/understanding-v8-internals/</loc>
-    <lastmod>2025-04-13T08:44:23+05:30</lastmod>
-  </url><url>
-    <loc>https://w1redch4d.github.io/tags/v8/</loc>
     <lastmod>2025-04-13T08:44:23+05:30</lastmod>
   </url><url>
     <loc>https://w1redch4d.github.io/post/compiler-design-principles-in-v8/</loc>

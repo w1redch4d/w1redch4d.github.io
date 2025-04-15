@@ -227,6 +227,10 @@
                 
                         
                 
+                        
+                
+                        
+                
             
         
         
@@ -247,6 +251,10 @@
                         </li>
                         
                             <li class="bullet">
+                                <a href="https://w1redch4d.github.io/post/parser-workflow/">Parser Workflow</a>
+                            </li>
+                        
+                            <li class="bullet">
                                 <a href="https://w1redch4d.github.io/post/lexical-analysis/">Lexical Analysis</a>
                             </li>
                         
@@ -262,10 +270,6 @@
                                 <a href="https://w1redch4d.github.io/post/flareon11/">FlareOn11</a>
                             </li>
                         
-                            <li class="bullet">
-                                <a href="https://w1redch4d.github.io/post/intro-android-kernel/">Intro Android Kernel</a>
-                            </li>
-                        
                     
                 
             
@@ -276,6 +280,10 @@
                 
             
                 
+                
+                        
+                
+                        
                 
                         
                 
@@ -449,15 +457,17 @@ graph TD
 <li>
 <p><a href="https://w1redch4d.github.io/post/lexical-analysis/" target="_blank">Lexer</a></p>
 <ul>
-<li>Breaks the JS code into tokens (keywords, constants, operators, variables), and make the <code>c0_</code> point to the first character of the js code that will be compiled.</li>
+<li>Breaks the JS code into tokens (keywords, constants, operators, variables) and stores it into <strong>cache</strong></li>
+<li>Makes the <code>c0_</code> point to the first character of the js code that will be compiled.</li>
 </ul>
 </li>
 <li>
 <p><a href="https://v8-docs.vercel.app/parser_8cc_source.html#l00668" target="_blank">Parser</a></p>
 <ul>
-<li>Uses tokens to build an <a href="https://source.chromium.org/chromium/chromium/src/&#43;/main:v8/src/ast/ast.cc" target="_blank">AST (Abstract Syntax Tree)</a>.</li>
+<li>Uses tokens from the <strong>token cache</strong> to build an <a href="https://source.chromium.org/chromium/chromium/src/&#43;/main:v8/src/ast/ast.cc" target="_blank">AST (Abstract Syntax Tree)</a>.</li>
 <li>Insert the node into the AST tree.</li>
 <li>Checks if the code is valid.</li>
+<li>When encountered with a Cache miss, it calls the <strong>lexer</strong> to generate the token and store it in <strong>cache</strong> as well and then continues to work.</li>
 </ul>
 </li>
 <li>
@@ -582,6 +592,13 @@ graph TD
         <ul class="series">
             
             
+            
+            <li>
+                April 14, 2025 -
+                
+                    <a href="/post/parser-workflow/">Parser Workflow</a>
+                
+            </li>
             
             <li>
                 April 13, 2025 -
