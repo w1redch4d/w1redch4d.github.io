@@ -447,15 +447,16 @@ graph TD
 <p>When JavaScript code runs in V8, it goes through several steps:</p>
 <ul>
 <li>
-<p><a href="https://source.chromium.org/chromium/chromium/src/&#43;/main:v8/src/parsing/token.h" target="_blank">Lexer</a></p>
+<p><a href="Lexical-Analysis.md">Lexer</a></p>
 <ul>
-<li>Breaks the JS code into tokens (keywords, constants, operators, variables).</li>
+<li>Breaks the JS code into tokens (keywords, constants, operators, variables), and make the <code>c0_</code> point to the first character of the js code that will be compiled.</li>
 </ul>
 </li>
 <li>
-<p><a href="https://source.chromium.org/chromium/chromium/src/&#43;/main:v8/src/parsing/parsing.cc" target="_blank">Parser</a></p>
+<p><a href="https://v8-docs.vercel.app/parser_8cc_source.html#l00668" target="_blank">Parser</a></p>
 <ul>
 <li>Uses tokens to build an <a href="https://source.chromium.org/chromium/chromium/src/&#43;/main:v8/src/ast/ast.cc" target="_blank">AST (Abstract Syntax Tree)</a>.</li>
+<li>Insert the node into the AST tree.</li>
 <li>Checks if the code is valid.</li>
 </ul>
 </li>
