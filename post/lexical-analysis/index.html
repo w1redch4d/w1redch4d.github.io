@@ -502,8 +502,7 @@ The <a href="https://v8-docs.vercel.app/scanner_8h_source.html#l00077" target="_
 
 <div class="mermaid">
 graph TD
-    A[Start: ScanSingleToken] --> B[Set c0_ to first character]
-    B --> C{Is c0_ ASCII?}
+    A[Start: ScanSingleToken] -- c0_ is set to first character --> C{Is c0_ ASCII?}
     C -- Yes --> D[Check one_char_tokens]
     D --> E{IsAsciiIdentifier?}
     E -- Yes --> F[Token type: Token::kIdentifier]
