@@ -13,7 +13,7 @@
       <link>https://w1redch4d.github.io/post/lexical-analysis/</link>
       <pubDate>Sun, 13 Apr 2025 08:44:23 +0530</pubDate>
       <guid>https://w1redch4d.github.io/post/lexical-analysis/</guid>
-      <description>Scanner, Token generation</description>
+      <description>An introduction to Lexical Analysis in V8</description>
     </item>
     <item>
       <title>Compiler Design Principles in V8</title>
@@ -55,7 +55,7 @@
       <link>https://w1redch4d.github.io/post/plaidctf/</link>
       <pubDate>Fri, 11 Apr 2025 11:14:17 +0530</pubDate>
       <guid>https://w1redch4d.github.io/post/plaidctf/</guid>
-      <description>My Writeups for PlaidCTF 2025</description>
+      <description>My writeups for PlaidCTF</description>
     </item>
   </channel>
 </rss>

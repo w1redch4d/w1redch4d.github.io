@@ -1,200 +1,403 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <script type="application/javascript" src='https://w1redch4d.github.io/js/theme-mode.js'></script>
-    <link rel="stylesheet" href='https://w1redch4d.github.io/css/frameworks.min.css' />
-    <link rel="stylesheet" href='https://w1redch4d.github.io/css/github.min.css' />
-    <link rel="stylesheet" href='https://w1redch4d.github.io/css/github-style.css' />
-    <link rel="stylesheet" href='https://w1redch4d.github.io/css/light.css' />
-    <link rel="stylesheet" href='https://w1redch4d.github.io/css/dark.css' />
-    <link rel="stylesheet" href='https://w1redch4d.github.io/css/syntax.css' />
-    <title>Lexical Analysis - BloggerCh4d</title>
-    
-    <link rel="icon" type="image/x-icon" href='https://w1redch4d.github.io/images/github.png'>
-    
-    <meta name="theme-color" content="#1e2327">
-
-    
     
 
+
+
+
+
+
+
+
+
+
     
-    <meta name="description"
-  content="Scanner, Token generation" />
-<meta name="keywords"
-  content='' />
-<meta name="robots" content="noodp" />
-<link rel="canonical" href="https://w1redch4d.github.io/post/lexical-analysis/" />
 
 
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Lexical Analysis - BloggerCh4d" />
-<meta name="twitter:description"
-  content="Scanner, Token generation" />
-<meta name="twitter:site" content="https://w1redch4d.github.io/" />
-<meta name="twitter:creator" content="" />
-<meta name="twitter:image"
-  content="https://w1redch4d.github.io/">
 
 
-<meta property="og:type" content="article" />
-<meta property="og:title" content="Lexical Analysis - BloggerCh4d">
-<meta property="og:description"
-  content="Scanner, Token generation" />
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.145453261a7755f5042a854c4213501d215a8fbe34c08d181c40f803f1315e74.js"></script>
+
+
+
+
+
+  
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">w1redch4d - Lexical Analysis</title>
+<meta property="og:title" content=w1redch4d&#32;-&#32;Lexical&#32;Analysis />
+<meta name="twitter:title" content=w1redch4d&#32;-&#32;Lexical&#32;Analysis />
+<meta itemprop="name" content=w1redch4d&#32;-&#32;Lexical&#32;Analysis />
+<meta name="application-name" content=w1redch4d&#32;-&#32;Lexical&#32;Analysis />
+<meta property="og:site_name" content="BloggerCh4d" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="https://w1redch4d.github.io/post/lexical-analysis/" />
+<link rel="canonical" href="https://w1redch4d.github.io/post/lexical-analysis/" itemprop="url" />
+<meta name="url" content="https://w1redch4d.github.io/post/lexical-analysis/" />
+<meta name="twitter:url" content="https://w1redch4d.github.io/post/lexical-analysis/" />
 <meta property="og:url" content="https://w1redch4d.github.io/post/lexical-analysis/" />
-<meta property="og:site_name" content="Lexical Analysis" />
-<meta property="og:image"
-  content="https://w1redch4d.github.io/">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
-
-<meta property="article:published_time" content="2025-04-13 08:44:23 &#43;0530 IST" />
 
 
+<meta property="og:updated_time" content="2025-04-13T08:44:23&#43;05:30" />
 
 
+<link rel="sitemap" type="application/xml" title="Sitemap" href='https://w1redch4d.github.io/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
 
 
 
+  
+    <meta name="twitter:site" content="@w1redch4d" />
+    <meta name="twitter:creator" content="@w1redch4d" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="BloggerCh4d" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 
 
+
+
+
+<meta name="generator" content="Hugo 0.126.2">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.6513307315781f29e4509b23a7c150cb384b56fde67b79a46b81eaf6b1b60c1b.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #1A1B2F;
+        --sidebar-img-border-color: #3D3A74;
+        --sidebar-p-color: #A0AEC0;
+        --sidebar-h1-color: #F0F9FF;
+        --sidebar-a-color: #C3F3FF;
+        --sidebar-socials-color: #9BE8FF;
+        --text-color: #2B2D42;
+        --bkg-color: #F9FBFD;
+        --post-title-color: #1F2937;
+        --list-color: #4C566A;
+        --link-color: #00B8D9;
+        --date-color: #6D9DC5;
+        --table-border-color: #CCEFFF;
+        --table-stripe-color: #E6F7FB;
+        --code-color: #1B1F23;
+        --code-background-color: #D0F0FF;
+        --code-block-color: #151515;
+        --code-block-background-color: #F0F9FF;
+        --moon-sun-color: #8AFFEF;
+        --moon-sun-background-color: #2D2A55;
+    }
+    body.dark-theme {
+        --text-color: #CBD5E1;
+        --bkg-color: #0D1117;
+        --post-title-color: #E0F7FA;
+        --list-color: #B0BEC5;
+        --link-color: #56CCF2;
+        --date-color: #6B8CA4;
+        --table-border-color: #3A506B;
+        --table-stripe-color: #16202A;
+        --code-color: #D6F6FF;
+        --code-background-color: #2F3E46;
+        --code-block-color: #F0F9FF;
+        --code-block-background-color: #1E2A38;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
 
 </head>
 
-
-<body>
-  <div style="position: relative">
-  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
-    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
-      <a class="Header-link" href="https://w1redch4d.github.io/">
-        <img class="octicon" height="32" width="32" src="https://w1redch4d.github.io/images/github-mark-white.png">
-      </a>
-    </div>
-    <div class="Header-item d-md-none">
-      <button class="Header-link btn-link js-details-target" type="button"
-        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
-        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
-          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
-          </path>
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
         </svg>
-      </button>
-    </div>
-    <div style="display: none;" id="header-search"
-      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
-      <div
-        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
-        <div class="position-relative">
-          
-          <form target="_blank" action="https://www.google.com/search" accept-charset="UTF-8" method="get"
-            autocomplete="off">
-            <label
-              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
-              <input type="text"
-                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
-                name="q" value="" placeholder="Search" autocomplete="off">
-              <input type="hidden" name="q" value="site:https://w1redch4d.github.io/">
-            </label>
-          </form>
-          
-        </div>
-      </div>
-    </div>
-
-    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
-      <a class="Header-link " href="https://w1redch4d.github.io/">
-        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="https://w1redch4d.github.io/images/github-mark-white.png">
-      </a>
-    </div>
-    <div class="Header-item" style="margin-right: 0;">
-      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
-        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
-          version="1.1" width="16" height="16">
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
-          </path>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
         </svg>
-      </a>
-    </div>
-  </header>
+    </button>
 </div>
 
-  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="https://w1redch4d.github.io/">
+                <img src="https://w1redch4d.github.io/images/avatar.jpeg" alt="brand image">
+            </a>
+        
+        
+            <a href="https://w1redch4d.github.io/">
+                <h1>w1redch4d</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Fuzzing my brain till it gets SIGSEGV
+    </p>
 </div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+            
+                
+                
+            
+            
+                
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+        
+            
+
+            
+                
+                
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                        <li class="sub-heading">
+                            Recent
+                        </li>
+                        
+                            <li class="bullet">
+                                <a href="https://w1redch4d.github.io/post/lexical-analysis/">Lexical Analysis</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="https://w1redch4d.github.io/post/compiler-design-principles-in-v8/">Compiler Design Principles in V8</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="https://w1redch4d.github.io/post/compiler-design-1/">Compiler Design 1</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="https://w1redch4d.github.io/post/flareon11/">FlareOn11</a>
+                            </li>
+                        
+                            <li class="bullet">
+                                <a href="https://w1redch4d.github.io/post/intro-android-kernel/">Intro Android Kernel</a>
+                            </li>
+                        
+                    
+                
+            
+            
+                
+                
+                        
+                
+            
+                
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+                        
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/w1redch4d">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/w1redch4d">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <p class="footnote">
+powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a target="_blank" href="https://github.com/lukeorth/poison">poison</a>
+    <br>
+    &copy; 2025 BloggerCh4d. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="https://w1redch4d.github.io/post/lexical-analysis/">Lexical Analysis</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-04-13T08:44:23&#43;0530" class="post-date">
+        April 13, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>9 mins read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-v8">
+        <a href="https://w1redch4d.github.io/tags/v8">v8</a>
+      </li>
+      
+      <li class="tag-compiler design">
+        <a href="https://w1redch4d.github.io/tags/compiler-design">compiler design</a>
+      </li>
+      
+      <li class="tag-lexical analysis">
+        <a href="https://w1redch4d.github.io/tags/lexical-analysis">lexical analysis</a>
+      </li>
+      
+      <li class="tag-scanner">
+        <a href="https://w1redch4d.github.io/tags/scanner">scanner</a>
+      </li>
+      
+      <li class="tag-token generation">
+        <a href="https://w1redch4d.github.io/tags/token-generation">token generation</a>
+      </li>
+      
+    </ul>
+    
+  </div>
 
   
-<div class="application-main">
-  <div>
-  <main>
-    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
-      <div class="px-0">
-        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
-          <div class="flex-auto min-width-0 width-fit mr-3">
-            <div class="d-flex">
-              <div class="d-none d-md-block">
-                <a class="avatar mr-2 flex-shrink-0" href="https://w1redch4d.github.io/">
-                  <img class=" avatar-user"
-                    src="https://w1redch4d.github.io/images/avatar.jpeg"
-                    width="32" height="32"></a>
-              </div>
-              <div class="d-flex flex-column">
-                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
-                  <span class="author">
-                    <a href="https://w1redch4d.github.io/">w1redch4d</a>
-                  </span>
-                  <span class="path-divider">/</span>
-                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
-                    <a href="https://w1redch4d.github.io/post/lexical-analysis/">Lexical Analysis</a>
-                  </strong>
-                </h1>
-                <div class="note m-0">
-                  Created <relative-time datetime="Sun, 13 Apr 2025 08:44:23 &#43;0530"
-                    class="no-wrap">
-                    Sun, 13 Apr 2025 08:44:23 &#43;0530</relative-time>
+  
+  <p class="seriesname">
+    Series: <a href="https://w1redch4d.github.io/series/understanding-v8-internals">Understanding V8 internals</a>
+  </p>
+  
 
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  
+</div>
 
-    <div class="container-lg px-3 new-discussion-timeline">
-      <div class="repository-content gist-content">
-        <div>
-          <div class="js-gist-file-update-container js-task-list-container file-box">
-            <div id="file-pytest" class="file my-2">
-              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
-                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
-                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-                    
-                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
-                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
-                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
-                      </svg>
-                    </summary>
-                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
-                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
-                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
-                        </div>
-                      </div>
-                    </details-menu>
-                      1782 Words
-                    
-
-                  </div>
-                  <div class="file-actions flex-order-2 pt-0">
-                    
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="Box-body px-5 pb-5" style="z-index: 1">
-                <article class="markdown-body entry-content container-lg"><h1 id="introduction-to-lexical-analysis">Introduction to Lexical Analysis</h1>
+  <h1 id="introduction-to-lexical-analysis">Introduction to Lexical Analysis</h1>
 <p>Lexical analysis, also known as scanning or tokenization, is the first phase of a compiler. It is responsible for reading the source code as a stream of characters and converting it into a stream of tokens. These tokens are the basic building blocks for the subsequent phases of the compiler, such as parsing and semantic analysis.</p>
 <h2 id="role-of-lexical-analysis">Role of Lexical Analysis</h2>
 <p>The primary role of the lexical analyzer (lexer) is to break down the raw source code into meaningful units called <strong>tokens</strong>. These tokens represent elements like keywords, identifiers, operators, constants, and punctuation marks. By doing so, the lexer simplifies the input for the parser, which expects a sequence of tokens rather than a stream of individual characters.</p>
@@ -213,12 +416,28 @@
 </span></span></code></pre></div><p>so in this case the <code>if</code> word is one token (keyword token), and <code>x</code> is another token (identifier token), <code>\n</code> and <code>\t</code> or <code>&lt;space&gt;</code> for that matter are also tokens (whitespace tokens).</p>
 <p>In the context of the V8 JavaScript engine, the <strong>Lexer</strong> is the first component in the JavaScript execution pipeline. It takes the JavaScript code and divides it into tokens such as keywords, constants, operators, and variables.</p>
 
-<pre class="mermaid">
-    graph TD
-    A[Source Code] --&gt; B(Lexer);
-    B --&gt; C[Token Stream];
-</pre>
-<p>The <strong>&ldquo;Lexer&rdquo;</strong> for V8 is called <strong>&ldquo;scanner&rdquo;</strong> and can be found found in the directory <a href="https://v8-docs.vercel.app/dir_3fb67633942bd84f7aa391e58ba835b3.html"><code>./src/parsing</code></a> and the code that converts the stream of characters into token can be found here in the file <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351"><code>scanner-inl.h</code></a> along with <a href="https://v8-docs.vercel.app/classv8_1_1internal_1_1Scanner.html#a11ad4829073aee72344151129608643b">call graph for the function</a>.</p>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+    const lsTheme = localStorage.getItem("theme")
+    const hugoTheme = document.body.classList.contains("dark-theme") ? "dark" : null
+    const currTheme = lsTheme ? lsTheme : hugoTheme;
+    const mermaidTheme = currTheme == "light" ? "default" : "dark"
+
+    mermaid.initialize({theme: mermaidTheme});
+</script>
+
+
+
+<div class="mermaid">
+graph TD
+    A[Source Code] --> B(Lexer);
+    B --> C[Token Stream];
+
+</div>
+
+<p>The <strong>&ldquo;Lexer&rdquo;</strong> for V8 is called <strong>&ldquo;scanner&rdquo;</strong> and can be found found in the directory <a href="https://v8-docs.vercel.app/dir_3fb67633942bd84f7aa391e58ba835b3.html" target="_blank"><code>./src/parsing</code></a> and the code that converts the stream of characters into token can be found here in the file <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351" target="_blank"><code>scanner-inl.h</code></a> along with <a href="https://v8-docs.vercel.app/classv8_1_1internal_1_1Scanner.html#a11ad4829073aee72344151129608643b" target="_blank">call graph for the function</a>.</p>
 <p><strong>Important Note:</strong> I am not using the official v8 source from the main refs as it is subject to change with newer commits in the future.</p>
 <h2 id="tokens-lexemes-and-token-classes">Tokens, Lexemes, and Token Classes</h2>
 <ul>
@@ -234,9 +453,9 @@
 <li><strong>Keyword</strong>: <code>if</code>,<code>else</code>,<code>let</code>,<code>for</code>,<code>while</code>&hellip;</li>
 <li><strong>Whitespaces</strong>: sequence of spaces, newlines, tabs, etc.</li>
 </ul>
-<p>The <strong>Token class</strong> source code for v8 can be found in the file <a href="https://v8-docs.vercel.app/token_8h_source.html#l00211"><code>token.h</code></a> along with the <a href="https://v8-docs.vercel.app/classv8_1_1internal_1_1Token.html"><code>Token Class Reference</code></a>.</p>
+<p>The <strong>Token class</strong> source code for v8 can be found in the file <a href="https://v8-docs.vercel.app/token_8h_source.html#l00211" target="_blank"><code>token.h</code></a> along with the <a href="https://v8-docs.vercel.app/classv8_1_1internal_1_1Token.html" target="_blank"><code>Token Class Reference</code></a>.</p>
 <h2 id="error-handling-in-lexical-analysis">Error Handling in Lexical Analysis</h2>
-<p>When the lexer encounters a sequence of characters that does not match any of the defined token class patterns, a lexical error occurs. A common approach to handle lexical errors is to define a special <a href="https://v8-docs.vercel.app/token_8h_source.html#l00204"><strong>error token value</strong></a>. When no other pattern matches, the lexer can match the erroneous sequence (often just a single character) as an error token and <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00375">continue the scanning process</a>. This allows the compiler to detect multiple errors in a single pass. Error tokens can contain the problematic lexeme and potentially an error message.</p>
+<p>When the lexer encounters a sequence of characters that does not match any of the defined token class patterns, a lexical error occurs. A common approach to handle lexical errors is to define a special <a href="https://v8-docs.vercel.app/token_8h_source.html#l00204" target="_blank"><strong>error token value</strong></a>. When no other pattern matches, the lexer can match the erroneous sequence (often just a single character) as an error token and <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00375" target="_blank">continue the scanning process</a>. This allows the compiler to detect multiple errors in a single pass. Error tokens can contain the problematic lexeme and potentially an error message.</p>
 <h2 id="software-implementation-of-lexical-analyzers">Software Implementation of Lexical Analyzers</h2>
 <p>Lexical analyzers can be implemented in several ways. Two common approaches involve using finite automata:</p>
 <ul>
@@ -247,7 +466,7 @@
 <p><strong>Non-deterministic Finite Automaton (NFA)</strong>: Regular expressions can be easily converted into NFAs. An NFA can have multiple possible next states for a given state and input character, as well as epsilon transitions (transitions without consuming any input). Simulating an NFA involves keeping track of the set of all possible states the automaton can be in at each step. While NFAs are often more compact than DFAs, their simulation can be slightly less efficient. However, tools can automatically convert regular expressions to NFAs and then to optimized DFAs for efficient lexical analysis.</p>
 </li>
 </ul>
-<p>Many lexical analyzer generators (like Lex or Flex) take a specification of token classes in the form of regular expressions and automatically generate efficient C code for a lexer based on DFA implementation. In case of V8 as well the lexical analyzer a.k.a <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351"><code>scanner</code></a> uses the DFA implementation on the <a href="https://v8-docs.vercel.app/token_8h_source.html#l00211"><code>token.h</code></a> file.</p>
+<p>Many lexical analyzer generators (like Lex or Flex) take a specification of token classes in the form of regular expressions and automatically generate efficient C code for a lexer based on DFA implementation. In case of V8 as well the lexical analyzer a.k.a <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351" target="_blank"><code>scanner</code></a> uses the DFA implementation on the <a href="https://v8-docs.vercel.app/token_8h_source.html#l00211" target="_blank"><code>token.h</code></a> file.</p>
 <h2 id="lexer-in-v8">Lexer in V8</h2>
 <p>In the V8 JavaScript engine, the <strong>Lexer</strong> is a crucial first step in processing JavaScript code. It takes the raw JavaScript source code and performs the following tasks:</p>
 <ul>
@@ -267,114 +486,114 @@
 </span></span></code></pre></div><blockquote>
 <p>Note: The test case is very simple, so it can’t cover the full flow of the scanner.</p>
 </blockquote>
-<p>The function <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351"><code>Scanner::ScanSingleToken()</code></a> serves as the entry point for scanning individual tokens within the V8 engine. At this stage, the <code>c0_</code> variable is already initialized to point to the first character of the js source code stream. In the provided test scenario, <code>c0_</code> references the character <code>'f'</code>. Let us examine the workflow in detail. Early in the function, specifically by the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00360">fifth line of code</a>, there is a check to determine if <code>c0_</code> contains a character within the ASCII range. Given that <code>c0_</code> holds <code>'f'</code>, this condition evaluates to true. Following this, the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00361">sixth line</a> references the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00180"><code>one_char_tokens</code></a> data structure — a predefined template in V8 consisting of an array of character types. This structure is segmented into several logical components, which classify characters accordingly. In this case, <code>'f'</code> is recognized as an ASCII identifier via the <a href="https://v8-docs.vercel.app/char-predicates-inl_8h_source.html#l00026"><code>IsAsciiIdentifier(c)</code></a> method, categorizing it under the <a href="https://v8-docs.vercel.app/token_8h_source.html#l00178"><code>Token::kIdentifier</code></a> type. Within the <code>ScanSingleToken()</code> function, given that <code>c0_</code> is classified as <code>Token::kIdentifier</code>, the scanner delegates further processing to the <a href="https://v8-docs.vercel.app/char-predicates-inl_8h_source.html#l000188"><code>ScanIdentifierOrKeyword()</code></a> method. This method orchestrates a series of operations that manage the relationships between relevant classes during token scanning. The image below illustrates the call stack associated with these operations:</p>
+<p>The function <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00351" target="_blank"><code>Scanner::ScanSingleToken()</code></a> serves as the entry point for scanning individual tokens within the V8 engine. At this stage, the <code>c0_</code> variable is already initialized to point to the first character of the js source code stream. In the provided test scenario, <code>c0_</code> references the character <code>'f'</code>. Let us examine the workflow in detail. Early in the function, specifically by the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00360" target="_blank">fifth line of code</a>, there is a check to determine if <code>c0_</code> contains a character within the ASCII range. Given that <code>c0_</code> holds <code>'f'</code>, this condition evaluates to true. Following this, the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00361" target="_blank">sixth line</a> references the <a href="https://v8-docs.vercel.app/scanner-inl_8h_source.html#l00180" target="_blank"><code>one_char_tokens</code></a> data structure — a predefined template in V8 consisting of an array of character types. This structure is segmented into several logical components, which classify characters accordingly. In this case, <code>'f'</code> is recognized as an ASCII identifier via the <a href="https://v8-docs.vercel.app/char-predicates-inl_8h_source.html#l00026" target="_blank"><code>IsAsciiIdentifier(c)</code></a> method, categorizing it under the <a href="https://v8-docs.vercel.app/token_8h_source.html#l00178" target="_blank"><code>Token::kIdentifier</code></a> type. Within the <code>ScanSingleToken()</code> function, given that <code>c0_</code> is classified as <code>Token::kIdentifier</code>, the scanner delegates further processing to the <a href="https://v8-docs.vercel.app/char-predicates-inl_8h_source.html#l000188" target="_blank"><code>ScanIdentifierOrKeyword()</code></a> method. This method orchestrates a series of operations that manage the relationships between relevant classes during token scanning. The image below illustrates the call stack associated with these operations:</p>
 <p><img src="../../assets/img/callstack.png" alt="img"></p>
-<p>Before advancing to subsequent characters, the current character (<code>'f'</code>) must be preserved. The scanner utilizes a window structure for this purpose. Specifically, the <a href="https://v8-docs.vercel.app/literal-buffer_8h_source.html#l00088"><code>one_byte_char</code></a> variable holds the value of <code>c0_</code>, which is then stored in the <a href="https://v8-docs.vercel.app/literal-buffer_8h_source.html#l000100"><code>backing_store_</code></a>. We can verify this claim by checking the variable window in the vscode debug view with the current value of our <code>c0_</code> variable.</p>
+<p>Before advancing to subsequent characters, the current character (<code>'f'</code>) must be preserved. The scanner utilizes a window structure for this purpose. Specifically, the <a href="https://v8-docs.vercel.app/literal-buffer_8h_source.html#l00088" target="_blank"><code>one_byte_char</code></a> variable holds the value of <code>c0_</code>, which is then stored in the <a href="https://v8-docs.vercel.app/literal-buffer_8h_source.html#l000100" target="_blank"><code>backing_store_</code></a>. We can verify this claim by checking the variable window in the vscode debug view with the current value of our <code>c0_</code> variable.</p>
 <p><img src="../../assets/img/c0__value.png" alt="img"></p>
 <p>Figure-1</p>
 <p><img src="../../assets/img/one_byte_char_value.png" alt="img"></p>
 <p>Figure-2</p>
 <p>As we can see the value of <code>c0_</code> (102) in Figure-1 is the same as <code>one_byte_char</code> (102) in Figure-2 and 102 in ascii translates to <code>f</code>.
-The <a href="https://v8-docs.vercel.app/scanner_8h_source.html#l00077"><code>AdvanceUntil()</code></a> method proceeds to iterate over each character sequentially, terminating upon encountering a designated terminator character. As depicted in Figure 3, this process results in the collection of the first eight characters, which form the string <code>&quot;function&quot;</code> in our example.</p>
-<p>At this point, a complete token has been successfully accumulated. The subsequent step involves determining whether this token represents a reserved keyword or a general identifier. This classification is handled by the <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00223"><code>GetToken()</code></a> method, which performs a straightforward lookup in a predefined hash table to retrieve the token type. Figure 4 provides an overview of the key members of <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00093">this hash table</a>.</p>
-<p>As a result of this process, the token corresponding to the string <code>&quot;function&quot;</code> is correctly identified and assigned the type <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00106"><code>Token::kFunction</code></a>. Similarly, for the token <code>&quot;is_greater&quot;</code>, the system assigns the type <a href="https://v8-docs.vercel.app/token_8h_source.html#l00178"><code>Token::kIdentifier</code></a>, following the same mechanism.</p>
+The <a href="https://v8-docs.vercel.app/scanner_8h_source.html#l00077" target="_blank"><code>AdvanceUntil()</code></a> method proceeds to iterate over each character sequentially, terminating upon encountering a designated terminator character. As depicted in Figure 3, this process results in the collection of the first eight characters, which form the string <code>&quot;function&quot;</code> in our example.</p>
+<p>At this point, a complete token has been successfully accumulated. The subsequent step involves determining whether this token represents a reserved keyword or a general identifier. This classification is handled by the <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00223" target="_blank"><code>GetToken()</code></a> method, which performs a straightforward lookup in a predefined hash table to retrieve the token type. Figure 4 provides an overview of the key members of <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00093" target="_blank">this hash table</a>.</p>
+<p>As a result of this process, the token corresponding to the string <code>&quot;function&quot;</code> is correctly identified and assigned the type <a href="https://v8-docs.vercel.app/keywords-gen_8h_source.html#l00106" target="_blank"><code>Token::kFunction</code></a>. Similarly, for the token <code>&quot;is_greater&quot;</code>, the system assigns the type <a href="https://v8-docs.vercel.app/token_8h_source.html#l00178" target="_blank"><code>Token::kIdentifier</code></a>, following the same mechanism.</p>
 <p>Here is the control flow graph of the codeflow:</p>
 
-<pre class="mermaid">
-    graph TD
-    A[Start: ScanSingleToken] --&gt; B[c0_ points to first character &#39;f&#39;]
-    B --&gt; C{Is c0_ ASCII?}
-    C -- Yes --&gt; D[Check one_char_tokens]
-    D --&gt; E{IsAsciiIdentifier?}
-    E -- Yes --&gt; F[Token type: Token::kIdentifier]
-    F --&gt; G[Call ScanIdentifierOrKeyword]
-    G --&gt; H[Save current character &#39;f&#39; in window -&gt; backing_store_]
-    H --&gt; I[Call AdvanceUntil]
-    I --&gt; J[Read characters until terminator]
-    J --&gt; K[Collect string &#39;function&#39;]
-    K --&gt; L[Token complete]
-    L --&gt; M[Call GetToken]
-    M --&gt; N[Lookup token in predefined hash table]
-    N --&gt; O{Is keyword?}
-    O -- Yes --&gt; P[Token type: Token::kFunction]
-    P --&gt; S[Advance to next token: &#39;is_greater&#39;]
-    
-    S --&gt; T[c0_ points to first character &#39;i&#39;]
-    T --&gt; U{Is c0_ ASCII?}
-    U -- Yes --&gt; V[Check one_char_tokens]
-    V --&gt; W{IsAsciiIdentifier?}
-    W -- Yes --&gt; X[Token type: Token::kIdentifier]
-    X --&gt; Y[Call ScanIdentifierOrKeyword]
-    Y --&gt; Z[Save current character &#39;i&#39; in window -&gt; backing_store_]
-    Z --&gt; AA[Call AdvanceUntil]
-    AA --&gt; AB[Read characters until terminator]
-    AB --&gt; AC[Collect string &#39;is_greater&#39;]
-    AC --&gt; AD[Token complete]
-    AD --&gt; AE[Call GetToken]
-    AE --&gt; AF[Lookup token in predefined hash table]
-    AF --&gt; AG{Is keyword?}
-    AG -- No --&gt; AH[Token type: Token::kIdentifier &#39;is_greater&#39;]
-    AH --&gt; R[End]
 
-    AG -- Yes --&gt; AI[Token type: Token::kFunction] 
-    AI --&gt; R[End]
+<div class="mermaid">
+graph TD
+    A[Start: ScanSingleToken] --> B[Set c0_ to first character]
+    B --> C{Is c0_ ASCII?}
+    C -- Yes --> D[Check one_char_tokens]
+    D --> E{IsAsciiIdentifier?}
+    E -- Yes --> F[Token type: Token::kIdentifier]
+    F --> G[Call ScanIdentifierOrKeyword]
+    G --> H[Save current character in backing_store_]
+    H --> I[Call AdvanceUntil - read until terminator]
+    I --> J[Collect identifier string]
+    J --> K[Token complete]
+    K --> L[Call GetToken]
+    L --> M[Lookup token in keyword hash table]
+    M --> N{Is keyword?}
+    N -- Yes --> O[Set Token type: appropriate keyword type]
+    N -- No --> P[Set Token type: Token::kIdentifier with collected string]
+    O --> Q[Advance to next token or End]
+    P --> Q[Advance to next token or End]
+    C -- No --> R[Handle non-ASCII case - not shown]
+    E -- No --> S[Handle non-identifier case - not shown]
 
-    P --&gt; R[End]
-</pre>
-</article>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
 </div>
-<script type="application/javascript" src='https://w1redch4d.github.io/js/toc.js'></script>
-<link rel="stylesheet" href='https://w1redch4d.github.io/css/toc.css' />
+
+
+  
+  <hr>
+<div class="footer">
+    
+    
+    
+    <p>
+    This is a post in the <b><a href="https://w1redch4d.github.io/series/understanding-v8-internals">Understanding V8 internals</a></b> series.
+        <br>Other posts in this series:
+        <ul class="series">
+            
+            
+            
+            <li>
+                April 13, 2025 -
+                
+                    Lexical Analysis
+                
+            </li>
+            
+            <li>
+                April 12, 2025 -
+                
+                    <a href="/post/compiler-design-principles-in-v8/">Compiler Design Principles in V8</a>
+                
+            </li>
+            
+            <li>
+                April 12, 2025 -
+                
+                    <a href="/post/compiler-design-1/">Compiler Design 1</a>
+                
+            </li>
+            
+            <li>
+                April 11, 2025 -
+                
+                    <a href="/post/intro-v8/">Intro V8</a>
+                
+            </li>
+            
+        </ul>
+    </p>
+    
+</div>
 
   
 </div>
-
-  <div class="footer container-xl width-full p-responsive">
-  <div
-    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
-    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://w1redch4d.github.io/">
-      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
-        <path fill-rule="evenodd"
-          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-        </path>
-      </svg>
-    </a>
-    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
-      
-      <li class="mr-3 mr-lg-0">Theme by <a href='https://github.com/MeiK2333/github-style'>github-style</a></li>
-      
-      <li class="mr-3 mr-lg-0">GitHub and the Invertocat logo are trademarks of <a href="https://github.com/">GitHub, Inc.</a></li>
-    </ul>
-  </div>
-  <div class="d-flex flex-justify-center pb-6">
-    <span class="f6 text-gray-light"></span>
-  </div>
-
-
+            </main>
+            
+  
+    <div class="article-toc ">
+    <div class="toc-wrapper">
+      <h4 id="contents"></h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#role-of-lexical-analysis">Role of Lexical Analysis</a></li>
+    <li><a href="#tokens-lexemes-and-token-classes">Tokens, Lexemes, and Token Classes</a></li>
+    <li><a href="#token-class">Token Class</a></li>
+    <li><a href="#error-handling-in-lexical-analysis">Error Handling in Lexical Analysis</a></li>
+    <li><a href="#software-implementation-of-lexical-analyzers">Software Implementation of Lexical Analyzers</a></li>
+    <li><a href="#lexer-in-v8">Lexer in V8</a></li>
+  </ul>
+</nav>
+    </div>
 </div>
 
-</body>
+  
 
-<script type="application/javascript" src="https://w1redch4d.github.io/js/github-style.js"></script>
-
-
-
-
-
-
-
-
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true });
-  </script>
-
-
+        </div>
+    </body>
 </html>

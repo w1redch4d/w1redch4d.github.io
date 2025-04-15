@@ -6,14 +6,21 @@
     <description>Recent content on BloggerCh4d</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 13 Apr 2025 08:44:23 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 15 Apr 2025 07:40:35 +0530</lastBuildDate>
     <atom:link href="https://w1redch4d.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://w1redch4d.github.io/about/about/</link>
+      <pubDate>Tue, 15 Apr 2025 07:40:35 +0530</pubDate>
+      <guid>https://w1redch4d.github.io/about/about/</guid>
+      <description>Introduced to programming at 16 through Game hacking, I am now a 21-year-old passionate security engineer with a strong focus on low-level programming, kernel development, and high-performance computing. Proficient in C and C++, I have experience in Linux hacking and enjoy exploring and experimenting with different Linux distributions. Since my starting years, i have now moved to chromium sbx and v8 exploitation and n-day analysis, covered many RCAs related to v8 iginition pipeline, currently focusing on chromium sbx rendering pipeline and GPU command buffers.</description>
+    </item>
     <item>
       <title>Lexical Analysis</title>
       <link>https://w1redch4d.github.io/post/lexical-analysis/</link>
       <pubDate>Sun, 13 Apr 2025 08:44:23 +0530</pubDate>
       <guid>https://w1redch4d.github.io/post/lexical-analysis/</guid>
-      <description>Scanner, Token generation</description>
+      <description>An introduction to Lexical Analysis in V8</description>
     </item>
     <item>
       <title>Compiler Design Principles in V8</title>
@@ -55,14 +62,7 @@
       <link>https://w1redch4d.github.io/post/plaidctf/</link>
       <pubDate>Fri, 11 Apr 2025 11:14:17 +0530</pubDate>
       <guid>https://w1redch4d.github.io/post/plaidctf/</guid>
-      <description>My Writeups for PlaidCTF 2025</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://w1redch4d.github.io/readme/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://w1redch4d.github.io/readme/</guid>
-      <description>Hello World!</description>
+      <description>My writeups for PlaidCTF</description>
     </item>
   </channel>
 </rss>
