@@ -364,7 +364,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
           
         
 
-        <span>8 mins read</span>
+        <span>20 mins read</span>
       </span>
     </div>
 
@@ -539,7 +539,264 @@ FUNC at 19
 . . . BLOCK at -1
 . . . . RETURN at 41
 . . . . . LITERAL &#34;GREATER!!&#34;
-</code></pre><p>In the next blog i will delve deeper into bytecode generation and maybe a case study of a bug thats related to it. Thanks for reading :D</p>
+</code></pre><h1 id="case-study-of-a-parser-bug">Case Study of a Parser Bug</h1>
+<p>Before we delve into what the bug is we need to clear out the concept of <strong><code>scopes</code></strong> in javascript:</p>
+<h2 id="scopes-in-javascript--concept">Scopes in Javascript : Concept</h2>
+<p>According to the definition on <a href="https://developer.mozilla.org/en-US/docs/Glossary/Scope" target="_blank">MDN</a> : &ldquo;The <strong>scope</strong> is the current context of execution in which values and expressions are <strong>&ldquo;visible&rdquo;</strong> or can be referenced.&rdquo;</p>
+<p>Lets break the definition down into a more simpler term with a code example:</p>
+<p>So to simplify, <strong>Scope</strong> is just where a variable can be used in your code. Lets take the following code for example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">// Global scope
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">function</span> <span class="nx">myFunction</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">y</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">// Local scope (only inside this function)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Inside function - x:&#34;</span><span class="p">,</span> <span class="nx">x</span><span class="p">);</span> <span class="c1">// Can access x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Inside function - y:&#34;</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span> <span class="c1">// Can access y
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">myFunction</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Outside function - x:&#34;</span><span class="p">,</span> <span class="nx">x</span><span class="p">);</span> <span class="c1">// Can access x
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&#34;Outside function - y:&#34;</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span> <span class="c1">// Error: y is not defined
+</span></span></span></code></pre></div><p>The variable <code>x</code> can be accessed anywhere on the entire code as it is in the global scope whereas its not the same case with the variable <code>y</code> as it is only scoped to the <code>myFunction</code> method in the code block. However this is a single example, in Javascript there are three main kind of scopes:</p>
+<p><strong>Global scope</strong>: The default scope for all code running in script mode.</p>
+<p><strong>Module scope</strong>: The scope for code running in module mode.</p>
+<p><strong>Function scope</strong>: The scope created with a function.</p>
+<p>In our example we saw the example of two out of those three scopes, the function and the global scope. In addition, identifiers declared with certain syntaxes, including let, const, class, or (in strict mode) function, can belong to an additional scope:</p>
+<p><strong>Block scope</strong>: The scope created with a pair of curly braces (a block).</p>
+<p>Lets understand this with an example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">blockscope</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">let</span> <span class="nx">scope</span> <span class="o">=</span> <span class="s2">&#34;UwU it worked&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">scope</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">blockscope</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span></code></pre></div><p>Outputs:</p>
+<pre tabindex="0"><code>VM77:5 Uncaught ReferenceError: scope is not defined
+    at blockscope (&lt;anonymous&gt;:5:17)
+    at &lt;anonymous&gt;:1:1
+</code></pre><p>on executing the above code, we get a <code>ReferenceError</code> even though we are trying to access the variable within the same function this is because it was declared using the <code>let</code> keyword and hence its scoped the the block it was defined under, which is why it is not <strong>&ldquo;visible&rdquo;</strong> to the engine anywhere outside the block, now lets try the same example using the <code>var</code> keyword instead of the <code>let</code> keyword:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">blockscope</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kd">var</span> <span class="nx">scope</span> <span class="o">=</span> <span class="s2">&#34;UwU it worked&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">scope</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">blockscope</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span></code></pre></div><p>Outputs:</p>
+<pre tabindex="0"><code>UwU it worked
+</code></pre><p>Now the code starts to function as expected as it is <strong>scoped</strong> to the function and not just the block.</p>
+<h3 id="scope-chaining">Scope Chaining</h3>
+<p>Whenever the js engine is unable to resolve a variable in the current scope it keeps moving into the outer scope step by step trying to find the said variable, here is a flow diagram for a better understanding:</p>
+
+
+<div class="mermaid">
+flowchart TD
+    subgraph Current Scope
+        A[Attempt to Resolve Identifier]
+    end
+
+    A --> B{Is it Here?}
+    B -- Yes --> C[Use Variable]
+    B -- No --> D[Move to Outer Scope]
+
+    subgraph Parent Scope
+        E[Attempt to Resolve Identifier]
+    end
+
+    D --> E
+    E --> F{Is it Here?}
+    F -- Yes --> C
+    F -- No --> G[Move to Next Outer Scope]
+
+    subgraph Global Scope
+        H[Attempt to Resolve Identifier]
+    end
+
+    G --> H
+    H --> I{Is it Here?}
+    I -- Yes --> C
+    I -- No --> J[ReferenceError: variable is not defined]
+
+</div>
+
+<h2 id="scopes-in-javascript--v8-implementation">Scopes in Javascript : V8 Implementation</h2>
+<p>Let us now dig into how these scopes are implemented in v8&rsquo;s parser. According to the <a href="https://docs.google.com/document/d/1FAvEp9EUK-G8kHfDIEo_385Hs2SUBCYbJ5H-NnLvq8M/edit?tab=t.0" target="_blank">v8 design documentation</a>, V8 utilizes different types of parsing scopes, each tailored for specific parsing contexts:</p>
+<ul>
+<li>
+<p><a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00044" target="_blank"><strong>ExpressionParsingScope</strong></a>: Used for most ambiguous expression parsing. It tracks expression and pattern errors. However it is completely different from the <code>scopes</code> concept in javascript, <code>ExpressionScope</code> is used during parsing to handle the complexities of JavaScript syntax and to defer decisions about the nature of certain code constructs. It helps in tracking potential interpretations, classifying errors, and gathering information about variables. This information gathered by <code>ExpressionScopes</code> then contributes to the creation of the actual <a href="https://v8-docs.vercel.app/scopes_8h_source.html" target="_blank"><code>Scope</code> within the AST</a>, which represents the program&rsquo;s lexical environment and is used during the execution of the JavaScript code by the interpreter and compilers. Here is the differences in a tabular format for better understanding:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><strong>ExpressionScope</strong></th>
+<th><strong>Scope</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phase</strong></td>
+<td>Primarily exists and is used during the <strong>parsing</strong> phase of the JavaScript code.</td>
+<td>Represents the <strong>lexical environment</strong> and is a structural element within the <strong>Abstract Syntax Tree (AST)</strong>, persisting beyond parsing and used during the execution phase.</td>
+</tr>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Acts as a <strong>helper object</strong> to manage syntactic <strong>ambiguities</strong> (e.g., object literal vs. destructuring pattern). It helps in <strong>tracking potential interpretations</strong>, classifying errors based on these possibilities without immediate commitment. Also used to <strong>track identifiers</strong> that might become assignment targets, declarations, or unresolved references.</td>
+<td>Represents the <strong>lexical scope</strong> of variables, determining their accessibility and lifetime during code execution. It&rsquo;s built during parsing and reflects where variables are declared (global, function, block) and how scope resolution works.</td>
+</tr>
+<tr>
+<td><strong>Lifespan</strong></td>
+<td><strong>Temporary</strong> data structure that exists <strong>until the parser has enough information to resolve an ambiguity</strong>. Once the parser determines the correct interpretation, the ExpressionScope is validated and might be discarded.</td>
+<td><strong>Persistent</strong> structure within the AST that reflects the program&rsquo;s lexical organization and is used throughout the execution pipeline by the interpreter (Ignition) and JIT compilers (Sparkplug, Maglev, Turbofan).</td>
+</tr>
+<tr>
+<td><strong>Error Handling</strong></td>
+<td>Facilitates <strong>deferred error classification</strong> by tracking errors relevant to different potential interpretations (expression, pattern, declaration). Errors are validated and potentially thrown when the scope&rsquo;s purpose becomes clear. <strong>AccumulationScopes</strong> prevent errors from one neighboring expression from affecting others.</td>
+<td>Errors related to scope (e.g., undeclared variables) are generally identified and recorded based on the structure of the AST and the established scopes, often after the initial parsing phase.</td>
+</tr>
+<tr>
+<td><strong>Variable Tracking</strong></td>
+<td>Used to <strong>track potential variable declarations and assignment targets</strong> during ambiguous parsing situations. This tracking is done in a way that allows for discarding the information if the construct resolves to an expression or marking them as assigned or declared if it resolves to a pattern or declaration.</td>
+<td>Explicitly defines where variables are <strong>declared</strong> and manages their scope within the lexical environment. Scope resolution during execution relies on the hierarchical structure of these scopes to find variable bindings.</td>
+</tr>
+<tr>
+<td><strong>Relationship</strong></td>
+<td><strong>ExpressionScope facilitates the parsing process</strong> and gathers information that <strong>contributes to the creation of the actual Scope information in the AST</strong>. It helps the parser navigate syntactic ambiguities so that the correct scope structure can be built.</td>
+<td><strong>Scope is the result</strong> of the parsing process, reflecting the lexical structure of the code regarding variable accessibility. The information gathered through mechanisms like <strong>ExpressionScope</strong> helps in correctly defining these scopes in the AST.</td>
+</tr>
+<tr>
+<td><strong>Analogy</strong></td>
+<td>Can be thought of as a <strong>scratchpad</strong> or a temporary context that the parser uses to explore different syntactic possibilities before committing to a final structure.</td>
+<td>Represents the <strong>blueprint</strong> of how variables are organized and accessible during the program&rsquo;s runtime.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00745" target="_blank"><strong>ArrowHeadParsingScope</strong></a>: Used more selectively when there is a strong indication that an arrow function is being parsed. It tracks expression, pattern, and declaration errors. Indicators for using this scope include identifiers followed by <code>=&gt;</code>, <code>async</code> followed by an identifier then <code>=&gt;</code>, <code>(...</code>, and <code>async(...</code>.</p>
+</li>
+<li>
+<p><a href="https://v8-docs.vercel.app/scopes_8h_source.html#l00852" target="_blank"><strong>DeclarationParsingScope</strong></a>: Activated when the parser definitively knows it&rsquo;s parsing a declaration. In this scope, errors are thrown immediately if they are relevant, and no error classification is needed afterwards. Examples of declarations include <code>ParameterDeclaration</code>, <code>VariableDeclaration</code>, and <code>LexicalDeclaration</code>.</p>
+</li>
+<li>
+<p><a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00669" target="_blank"><strong>AccumulationScope</strong></a>: Used for managing neighboring expressions, such as within array literals, object literals, and comma-separated expression lists (like arrow function parameters). This scope prevents errors from one expression from incorrectly affecting the parsing of its neighbors and merges errors outwards.</p>
+</li>
+</ul>
+<h3 id="handling-ambiguous-syntax">Handling Ambiguous Syntax</h3>
+<p>A key role of these scopes is to handle ambiguities in JavaScript syntax. For instance, object/array literals and destructuring patterns share similar syntax. By using different parsing scopes, V8 can defer the classification of these constructs until more information is available.</p>
+<p>Consider the example from the source: <code>{x:[a],y}</code>. Without further context, it&rsquo;s unclear whether this is:</p>
+<ul>
+<li>An object literal with properties <code>x</code> (an array containing <code>a</code>) and <code>y</code> with value <code>y</code>.</li>
+<li>A destructuring target where <code>a</code> would be assigned the value of the incoming object&rsquo;s <code>x</code> and <code>y</code> the value of <code>object.y</code>.</li>
+</ul>
+<p>The use of classifying scopes like <code>ExpressionParsingScope</code> and <code>ArrowHeadParsingScope</code> allows the parser to track potential errors related to both interpretations (expression and pattern) without immediately committing to one. Once the parser has more context (e.g., if this is on the left-hand side of an assignment), the scope is validated based on the specific subclass, and the correct interpretation is determined.</p>
+<p>Another example involves the keyword <code>&quot;let&quot;</code>. While <code>&quot;let&quot;</code> is not allowed as a lexical declaration within an object literal destructuring (e.g., <code>const {a:[let]} = ...</code>), it is valid within an expression context (e.g., <code>({a:[let]})</code>). Different scope types correctly handle this distinction. A <code>DeclarationParsingScope</code> would immediately flag <code>&quot;let&quot;</code> as an error in the first case, while an <code>ExpressionParsingScope</code> would allow it.</p>
+<h3 id="case-study--what-is-the-bug">Case Study : What is the bug</h3>
+<p>The bug we are going to discuss in this case study is <strong>CVE-2024-5274</strong> which was an in the wild exploit for a flaw on the v8 parser, which was fixed in this <a href="https://chromereleases.googleblog.com/2024/05/stable-channel-update-for-desktop_23.html" target="_blank">update</a>. Lets take a look on what the patch for the bug is :</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-diff" data-lang="diff"><span class="line"><span class="cl"><span class="gh">diff --git a/src/ast/scopes.cc b/src/ast/scopes.cc
+</span></span></span><span class="line"><span class="cl"><span class="gh">index 660fdd2..de4df35 100644
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span><span class="gd">--- a/src/ast/scopes.cc
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+++ b/src/ast/scopes.cc
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span><span class="gu">@@ -2447,7 +2447,7 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span>     var-&gt;set_is_used();
+</span></span><span class="line"><span class="cl">     if (inner_scope_calls_eval_ &amp;&amp; !var-&gt;is_this()) var-&gt;SetMaybeAssigned();
+</span></span><span class="line"><span class="cl">   }
+</span></span><span class="line"><span class="cl"><span class="gd">-  DCHECK(!var-&gt;has_forced_context_allocation() || var-&gt;is_used());
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+  CHECK(!var-&gt;has_forced_context_allocation() || var-&gt;is_used());
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span>   // Global variables do not need to be allocated.
+</span></span><span class="line"><span class="cl">   return !var-&gt;IsGlobalObjectProperty() &amp;&amp; var-&gt;is_used();
+</span></span><span class="line"><span class="cl"> }
+</span></span><span class="line"><span class="cl"><span class="gh">diff --git a/src/parsing/parser-base.h b/src/parsing/parser-base.h
+</span></span></span><span class="line"><span class="cl"><span class="gh">index 40914d3..65c338f 100644
+</span></span></span><span class="line"><span class="cl"><span class="gh"></span><span class="gd">--- a/src/parsing/parser-base.h
+</span></span></span><span class="line"><span class="cl"><span class="gd"></span><span class="gi">+++ b/src/parsing/parser-base.h
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span><span class="gu">@@ -2661,6 +2661,7 @@
+</span></span></span><span class="line"><span class="cl"><span class="gu"></span>   }
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">   FunctionState initializer_state(&amp;function_state_, &amp;scope_, initializer_scope);
+</span></span><span class="line"><span class="cl"><span class="gi">+  FunctionParsingScope body_parsing_scope(impl());
+</span></span></span><span class="line"><span class="cl"><span class="gi"></span>   AcceptINScope accept_in(this, true);
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">   // Each static block has its own var and lexical scope, so make a new var
+</span></span></code></pre></div><blockquote>
+<p>Note: How we get the patch is by going to <a href="https://chromium-review.googlesource.com/q/bug:341663589" target="_blank">https://chromium-review.googlesource.com/q/bug:341663589</a> the the number after the <code>bug:</code> can be found on the chromium update link, this is generally the rule of thumb for getting the patch on restricted issues for understanding the rootcause of the bug.</p>
+</blockquote>
+<p>The core of the fix is the introduction of a <a href="https://v8-docs.vercel.app/parser-base_8h_source.html#l02873" target="_blank"><code>FunctionParsingScope</code></a> when parsing the static initialization block of a class. Here&rsquo;s a more detailed look at what this implies:</p>
+<ul>
+<li>
+<p><strong><a href="https://v8-docs.vercel.app/parser-base_8h_source.html#l01705" target="_blank"><code>FunctionParsingScope</code></a></strong> : This new variable, when created, stores the current <code>expression_scope_</code> of the parser and restores it upon destruction. This behavior suggests that <code>FunctionParsingScope</code> is designed to create a temporary, isolated scope during the parsing of function-like structures.</p>
+</li>
+<li>
+<p>Blocking the Parent <strong><a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00044" target="_blank"><code>ExpressionScope</code></a></strong>: The crucial point is that <code>FunctionParsingScope</code> blocks the <code>ExpressionScope</code> chain from indexing its parent. This means that during the parsing of the static initialization block, the current <code>ExpressionScope</code> will not be able to directly access or be influenced by its enclosing <code>ExpressionScope</code>.</p>
+</li>
+</ul>
+<p>Without this isolation, the parsing process within the static initialization block could have unintended consequences on the parent <code>ExpressionScope</code>. The function <a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00162" target="_blank"><code>RecordThisUse</code></a>, is called by <a href="https://v8-docs.vercel.app/parser-base_8h_source.html#l01268" target="_blank"><code>UseThis</code></a> function to handle the <code>this</code> keyword. In JavaScript, <code>this</code> has specific scoping rules within functions, such as:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">showThis</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="kd">function</span> <span class="nx">innerThis</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span> <span class="o">==</span> <span class="nx">innerThis</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</span></span><span class="line"><span class="cl"><span class="nx">obj</span><span class="p">.</span><span class="nx">showThis</span> <span class="o">=</span> <span class="nx">showThis</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">obj</span><span class="p">.</span><span class="nx">showThis</span><span class="p">();</span>
+</span></span></code></pre></div><p>The output will be:</p>
+<pre tabindex="0"><code>false
+</code></pre><p>since the <code>this</code> variable cannot be passed between function calls. However, the introduction of ES6 arrow functions brought a change in how the <code>this</code> keyword is handled. Unlike traditional functions, arrow functions can lexically capture the this value from their surrounding scope. This means that within an arrow function, <code>this</code> refers to the <code>this</code> of its outer function or global scope. To correctly support this behavior, the parsing of <code>this</code> within arrow functions requires special handling. As indicated by the <a href="https://v8-docs.vercel.app/parser-base_8h_source.html#l01268" target="_blank"><code>UseThis</code></a> function in V8, when the parser encounters the <code>this</code> keyword, it needs to consider the current and enclosing <code>Scopes</code>. The <code>UseThis</code> function <a href="https://v8-docs.vercel.app/parser-base_8h_source.html#l01275" target="_blank">checks if the inner (<code>closure_scope</code>) and outer (<code>receiver_scope</code>) Scopes are the same</a>, <strong>&ldquo;which can be a strong indicator that the head of an arrow function is being parsed in which case parser haven&rsquo;t realized yet that <code>closure_scope</code> != <code>receiver_scope</code>&rdquo;</strong>, as shown in the following code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nx">arg</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">a</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arg</span><span class="p">);</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">foo</span><span class="p">()</span>
+</span></span></code></pre></div><p>At the point where the arrow function is being parsed, its lexical scope has not yet been fully established or allocated. Consequently, when the <code>this</code> keyword is encountered within the body of the arrow function, it cannot be immediately bound to a concrete scope. To address this, an intermediate structure—referred to as <code>ExpressionScope</code> is employed to track the usage of this during this preliminary phase.</p>
+<p>Specifically, when the parser identifies a reference to <code>this</code> by the <a href="https://v8-docs.vercel.app/parser-base_8h_source.html#l01268" target="_blank"><code>UseThis</code></a> function, it invokes the <a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00162" target="_blank"><code>RecordThisUse</code></a> routine, which annotates the current and all enclosing <code>ExpressionScope</code> instances to indicate that the <code>this</code> binding is required. This deferred recording ensures that, once the lexical scope of the arrow function is later finalized and properly instantiated, the appropriate binding for <code>this</code> consistent with the surrounding lexical environment is correctly resolved and allocated. Here is the video of the callstack for a better understanding:</p>
+<p><img src="../../assets/videos/callstack.webm" alt="video"></p>
+<p>Now, the core issue arises from the misuse of lexical tracking mechanisms during the parsing and scope resolution of the <code>this</code> keyword within certain special constructs—specifically, class static blocks. These static blocks, although written inside a class body, semantically behave much like function blocks in terms of scoping and execution.</p>
+<p>When the <code>this</code> keyword is encountered during the parsing of code inside an arrow function, and prior to the actual allocation of its lexical scope, a mechanism is employed where references to this are deferred via the <code>ExpressionScope</code> chain. This mechanism is designed to bubble up the usage of this until a concrete function or method scope is finally established. The purpose is to ensure that when scope resolution eventually occurs, the correct outer <code>this</code> context (as per lexical scoping rules) is captured.</p>
+<p>However, this deferred resolution strategy does not account for all types of code blocks that should terminate the propagation of <code>this</code> usage through the <code>ExpressionScope</code> chain—specifically, class static blocks.</p>
+<p>Class static blocks do not have a this binding of their own; and more importantly, any usage of <code>this</code> within them is illegal and should not imply a dependency on an outer lexical <code>this</code>. Yet, since the static block is not currently being treated as a boundary or terminator in the <code>ExpressionScope</code> chain (i.e., not being recognized as a scope that should stop the upward propagation of <code>this</code> usage), any <code>this</code> reference within it is mistakenly marked as an access to an outer lexical <code>this</code>.</p>
+<p>As a result, when <code>RecordThisUse</code> propagates the this usage up through the <code>ExpressionScope</code> hierarchy, it ends up incorrectly marking the enclosing function or class constructor as needing a <code>this</code> binding—even though, semantically, the static block should have blocked this propagation.. The PoC is as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">f1</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="p">(</span><span class="nx">arg</span> <span class="o">=</span> <span class="kr">class</span> <span class="nx">AAA</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">static</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">})</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="nx">f1</span><span class="p">();</span>
+</span></span></code></pre></div><p>Since the outer function <code>f1</code> does not actually use <code>this</code>, but it is marked as <a href="https://v8-docs.vercel.app/variables_8h_source.html#l00078" target="_blank"><code>has_forced_context_allocation</code></a>, triggering the <a href="https://chromium-review.googlesource.com/c/v8/v8/&#43;/5553030/11/src/ast/scopes.cc#b2450" target="_blank"><code>DCHECK</code></a> when allocating this variable.</p>
+<p><img src="../../assets/img/crash-v8.png" alt="img"></p>
+<p>And here is the control flow of the entire exploit in mermaid view :</p>
+
+
+<div class="mermaid">
+flowchart TD
+    A[Start Parsing Arrow Function] --> B{Arrow Function Scope Allocated?}
+    B -- No --> C[Use ExpressionScope to Track `this` Usage]
+    C --> D[Call RecordThisUse]
+    D --> E[Propagate `this` Usage Up Through ExpressionScope Chain]
+
+    E --> F{Encounter Class Static Block?}
+    F -- Yes, But Not Marked as Scope Boundary --> G[Continue Propagating Upward]
+    G --> H[Incorrectly Mark Outer Function as Using `this`]
+    H --> I[Incorrect Scope Resolution / Runtime Error]
+
+    F -- Yes, If Properly Handled --> J[Stop Propagation Here]
+    J --> K[Do Not Mark Outer Scope]
+    K --> L[Correct Behavior]
+
+    B -- Yes --> M[Bind `this` Normally in Function Scope]
+    M --> N[End]
+
+    L --> N
+    I --> N
+
+</div>
+
+<p>In the next blog i will delve deeper into bytecode generation and more on the case study of this bug related to it due to the inconsistent bytecode generation and exploiting the bytecode inconsistency. Thanks for reading :D</p>
+<h3 id="references-">References :</h3>
+<ul>
+<li><a href="https://www.darknavy.org/blog/cve_2024_5274_a_minor_flaw_in_v8_parser_leading_to_catastrophes/" target="_blank">Dark Navy Writeup</a></li>
+<li><a href="https://t.me/ReseacrhUnity" target="_blank">Members of ResearchUnity Community of telegram</a></li>
+</ul>
 
   
   <hr>
@@ -606,6 +863,21 @@ FUNC at 19
   <ul>
     <li><a href="#parser-in-v8">Parser in V8</a></li>
     <li><a href="#parser-optimization-techniques-in-v8">Parser Optimization Techniques in V8</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#scopes-in-javascript--concept">Scopes in Javascript : Concept</a>
+      <ul>
+        <li><a href="#scope-chaining">Scope Chaining</a></li>
+      </ul>
+    </li>
+    <li><a href="#scopes-in-javascript--v8-implementation">Scopes in Javascript : V8 Implementation</a>
+      <ul>
+        <li><a href="#handling-ambiguous-syntax">Handling Ambiguous Syntax</a></li>
+        <li><a href="#case-study--what-is-the-bug">Case Study : What is the bug</a></li>
+        <li><a href="#references-">References :</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
     </div>
