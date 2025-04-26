@@ -20,13 +20,10 @@
 
 
 
-<script defer language="javascript" type="text/javascript" src="/js/bundle.min.145453261a7755f5042a854c4213501d215a8fbe34c08d181c40f803f1315e74.js"></script>
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.5991d603939a6d188be342b278a4555db90f163903158c623d2c39fde3d82cb3.js"></script>
 
 
 
-
-
-  
 
 
 
@@ -91,8 +88,8 @@
 
 
   
-    <meta name="twitter:site" content="@w1redch4d" />
-    <meta name="twitter:creator" content="@w1redch4d" />
+    <meta name="twitter:site" content="@w1rech4d" />
+    <meta name="twitter:creator" content="@w1rech4d" />
 
 <meta property="fb:admins" content="" />
 
@@ -106,7 +103,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.126.2">
+<meta name="generator" content="Hugo 0.142.0">
 
 
     
@@ -242,36 +239,6 @@
             
                 
                 
-                    <li class="heading">
-                        <a href="/posts/">Posts</a>
-                    </li>
-                    
-                        <li class="sub-heading">
-                            Recent
-                        </li>
-                        
-                            <li class="bullet">
-                                <a href="https://w1redch4d.github.io/post/parser-workflow/">Parser Workflow</a>
-                            </li>
-                        
-                            <li class="bullet">
-                                <a href="https://w1redch4d.github.io/post/lexical-analysis/">Lexical Analysis</a>
-                            </li>
-                        
-                            <li class="bullet">
-                                <a href="https://w1redch4d.github.io/post/compiler-design-principles-in-v8/">Compiler Design Principles in V8</a>
-                            </li>
-                        
-                            <li class="bullet">
-                                <a href="https://w1redch4d.github.io/post/compiler-design-1/">Compiler Design 1</a>
-                            </li>
-                        
-                            <li class="bullet">
-                                <a href="https://w1redch4d.github.io/post/flareon11/">FlareOn11</a>
-                            </li>
-                        
-                    
-                
             
             
                 
@@ -312,7 +279,7 @@
 
 
 
-    <a target="_blank" class="social" title="X" href="https://x.com/w1redch4d">
+    <a target="_blank" class="social" title="X" href="https://x.com/w1rech4d">
         <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
             <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
         </svg>
@@ -624,50 +591,50 @@ flowchart TD
 <li>
 <p><a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00044" target="_blank"><strong>ExpressionParsingScope</strong></a>: Used for most ambiguous expression parsing. It tracks expression and pattern errors. However it is completely different from the <code>scopes</code> concept in javascript, <code>ExpressionScope</code> is used during parsing to handle the complexities of JavaScript syntax and to defer decisions about the nature of certain code constructs. It helps in tracking potential interpretations, classifying errors, and gathering information about variables. This information gathered by <code>ExpressionScopes</code> then contributes to the creation of the actual <a href="https://v8-docs.vercel.app/scopes_8h_source.html" target="_blank"><code>Scope</code> within the AST</a>, which represents the program&rsquo;s lexical environment and is used during the execution of the JavaScript code by the interpreter and compilers. Here is the differences in a tabular format for better understanding:</p>
 <table>
-<thead>
-<tr>
-<th>Feature</th>
-<th><strong>ExpressionScope</strong></th>
-<th><strong>Scope</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Phase</strong></td>
-<td>Primarily exists and is used during the <strong>parsing</strong> phase of the JavaScript code.</td>
-<td>Represents the <strong>lexical environment</strong> and is a structural element within the <strong>Abstract Syntax Tree (AST)</strong>, persisting beyond parsing and used during the execution phase.</td>
-</tr>
-<tr>
-<td><strong>Purpose</strong></td>
-<td>Acts as a <strong>helper object</strong> to manage syntactic <strong>ambiguities</strong> (e.g., object literal vs. destructuring pattern). It helps in <strong>tracking potential interpretations</strong>, classifying errors based on these possibilities without immediate commitment. Also used to <strong>track identifiers</strong> that might become assignment targets, declarations, or unresolved references.</td>
-<td>Represents the <strong>lexical scope</strong> of variables, determining their accessibility and lifetime during code execution. It&rsquo;s built during parsing and reflects where variables are declared (global, function, block) and how scope resolution works.</td>
-</tr>
-<tr>
-<td><strong>Lifespan</strong></td>
-<td><strong>Temporary</strong> data structure that exists <strong>until the parser has enough information to resolve an ambiguity</strong>. Once the parser determines the correct interpretation, the ExpressionScope is validated and might be discarded.</td>
-<td><strong>Persistent</strong> structure within the AST that reflects the program&rsquo;s lexical organization and is used throughout the execution pipeline by the interpreter (Ignition) and JIT compilers (Sparkplug, Maglev, Turbofan).</td>
-</tr>
-<tr>
-<td><strong>Error Handling</strong></td>
-<td>Facilitates <strong>deferred error classification</strong> by tracking errors relevant to different potential interpretations (expression, pattern, declaration). Errors are validated and potentially thrown when the scope&rsquo;s purpose becomes clear. <strong>AccumulationScopes</strong> prevent errors from one neighboring expression from affecting others.</td>
-<td>Errors related to scope (e.g., undeclared variables) are generally identified and recorded based on the structure of the AST and the established scopes, often after the initial parsing phase.</td>
-</tr>
-<tr>
-<td><strong>Variable Tracking</strong></td>
-<td>Used to <strong>track potential variable declarations and assignment targets</strong> during ambiguous parsing situations. This tracking is done in a way that allows for discarding the information if the construct resolves to an expression or marking them as assigned or declared if it resolves to a pattern or declaration.</td>
-<td>Explicitly defines where variables are <strong>declared</strong> and manages their scope within the lexical environment. Scope resolution during execution relies on the hierarchical structure of these scopes to find variable bindings.</td>
-</tr>
-<tr>
-<td><strong>Relationship</strong></td>
-<td><strong>ExpressionScope facilitates the parsing process</strong> and gathers information that <strong>contributes to the creation of the actual Scope information in the AST</strong>. It helps the parser navigate syntactic ambiguities so that the correct scope structure can be built.</td>
-<td><strong>Scope is the result</strong> of the parsing process, reflecting the lexical structure of the code regarding variable accessibility. The information gathered through mechanisms like <strong>ExpressionScope</strong> helps in correctly defining these scopes in the AST.</td>
-</tr>
-<tr>
-<td><strong>Analogy</strong></td>
-<td>Can be thought of as a <strong>scratchpad</strong> or a temporary context that the parser uses to explore different syntactic possibilities before committing to a final structure.</td>
-<td>Represents the <strong>blueprint</strong> of how variables are organized and accessible during the program&rsquo;s runtime.</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th>Feature</th>
+          <th><strong>ExpressionScope</strong></th>
+          <th><strong>Scope</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Phase</strong></td>
+          <td>Primarily exists and is used during the <strong>parsing</strong> phase of the JavaScript code.</td>
+          <td>Represents the <strong>lexical environment</strong> and is a structural element within the <strong>Abstract Syntax Tree (AST)</strong>, persisting beyond parsing and used during the execution phase.</td>
+      </tr>
+      <tr>
+          <td><strong>Purpose</strong></td>
+          <td>Acts as a <strong>helper object</strong> to manage syntactic <strong>ambiguities</strong> (e.g., object literal vs. destructuring pattern). It helps in <strong>tracking potential interpretations</strong>, classifying errors based on these possibilities without immediate commitment. Also used to <strong>track identifiers</strong> that might become assignment targets, declarations, or unresolved references.</td>
+          <td>Represents the <strong>lexical scope</strong> of variables, determining their accessibility and lifetime during code execution. It&rsquo;s built during parsing and reflects where variables are declared (global, function, block) and how scope resolution works.</td>
+      </tr>
+      <tr>
+          <td><strong>Lifespan</strong></td>
+          <td><strong>Temporary</strong> data structure that exists <strong>until the parser has enough information to resolve an ambiguity</strong>. Once the parser determines the correct interpretation, the ExpressionScope is validated and might be discarded.</td>
+          <td><strong>Persistent</strong> structure within the AST that reflects the program&rsquo;s lexical organization and is used throughout the execution pipeline by the interpreter (Ignition) and JIT compilers (Sparkplug, Maglev, Turbofan).</td>
+      </tr>
+      <tr>
+          <td><strong>Error Handling</strong></td>
+          <td>Facilitates <strong>deferred error classification</strong> by tracking errors relevant to different potential interpretations (expression, pattern, declaration). Errors are validated and potentially thrown when the scope&rsquo;s purpose becomes clear. <strong>AccumulationScopes</strong> prevent errors from one neighboring expression from affecting others.</td>
+          <td>Errors related to scope (e.g., undeclared variables) are generally identified and recorded based on the structure of the AST and the established scopes, often after the initial parsing phase.</td>
+      </tr>
+      <tr>
+          <td><strong>Variable Tracking</strong></td>
+          <td>Used to <strong>track potential variable declarations and assignment targets</strong> during ambiguous parsing situations. This tracking is done in a way that allows for discarding the information if the construct resolves to an expression or marking them as assigned or declared if it resolves to a pattern or declaration.</td>
+          <td>Explicitly defines where variables are <strong>declared</strong> and manages their scope within the lexical environment. Scope resolution during execution relies on the hierarchical structure of these scopes to find variable bindings.</td>
+      </tr>
+      <tr>
+          <td><strong>Relationship</strong></td>
+          <td><strong>ExpressionScope facilitates the parsing process</strong> and gathers information that <strong>contributes to the creation of the actual Scope information in the AST</strong>. It helps the parser navigate syntactic ambiguities so that the correct scope structure can be built.</td>
+          <td><strong>Scope is the result</strong> of the parsing process, reflecting the lexical structure of the code regarding variable accessibility. The information gathered through mechanisms like <strong>ExpressionScope</strong> helps in correctly defining these scopes in the AST.</td>
+      </tr>
+      <tr>
+          <td><strong>Analogy</strong></td>
+          <td>Can be thought of as a <strong>scratchpad</strong> or a temporary context that the parser uses to explore different syntactic possibilities before committing to a final structure.</td>
+          <td>Represents the <strong>blueprint</strong> of how variables are organized and accessible during the program&rsquo;s runtime.</td>
+      </tr>
+  </tbody>
 </table>
 </li>
 <li>
@@ -747,7 +714,7 @@ flowchart TD
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="nx">foo</span><span class="p">()</span>
 </span></span></code></pre></div><p>At the point where the arrow function is being parsed, its lexical scope has not yet been fully established or allocated. Consequently, when the <code>this</code> keyword is encountered within the body of the arrow function, it cannot be immediately bound to a concrete scope. To address this, an intermediate structure—referred to as <code>ExpressionScope</code> is employed to track the usage of this during this preliminary phase.</p>
-<p>Specifically, when the parser identifies a reference to <code>this</code> by the <a href="https://v8-docs.vercel.app/parser-base_8h_source.html#l01268" target="_blank"><code>UseThis</code></a> function, it invokes the <a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00162" target="_blank"><code>RecordThisUse</code></a> routine, which annotates the current and all enclosing <code>ExpressionScope</code> instances to indicate that the <code>this</code> binding is required. This deferred recording ensures that, once the lexical scope of the arrow function is later finalized and properly instantiated, the appropriate binding for <code>this</code> consistent with the surrounding lexical environment is correctly resolved and allocated. Here is the video of the callstack for a better understanding:</p>
+<p>Specifically, when the parser identifies a reference to <code>this</code> by the <a href="https://v8-docs.vercel.app/parser-base_8h_source.html#l01268" target="_blank"><code>UseThis</code></a> function,  the lexer revolves the function symbol then after it gets passed the bytecode generation phase, the ignition execution unit which is responsible for executing the bytecode invokes the <a href="https://v8-docs.vercel.app/expression-scope_8h_source.html#l00162" target="_blank"><code>RecordThisUse</code></a> routine, which annotates the current and all enclosing <code>ExpressionScope</code> instances to indicate that the <code>this</code> binding is required. This deferred recording ensures that, once the lexical scope of the arrow function is later finalized and properly instantiated, the appropriate binding for <code>this</code> consistent with the surrounding lexical environment is correctly resolved and allocated. Here is the video of the callstack for a better understanding:</p>
 <p><img src="../../assets/videos/callstack.gif" alt="video"></p>
 <p>Now, the core issue arises from the misuse of lexical tracking mechanisms during the parsing and scope resolution of the <code>this</code> keyword within certain special constructs—specifically, class static blocks. These static blocks, although written inside a class body, semantically behave much like function blocks in terms of scoping and execution.</p>
 <p>When the <code>this</code> keyword is encountered during the parsing of code inside an arrow function, and prior to the actual allocation of its lexical scope, a mechanism is employed where references to this are deferred via the <code>ExpressionScope</code> chain. This mechanism is designed to bubble up the usage of this until a concrete function or method scope is finally established. The purpose is to ensure that when scope resolution eventually occurs, the correct outer <code>this</code> context (as per lexical scoping rules) is captured.</p>
